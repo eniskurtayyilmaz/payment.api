@@ -5,7 +5,7 @@
 
 First of all, thank you for giving me this opportunity. I'm very excited to work with you. So, I tried to finish as soon as possible. I hope you will enjoy it.
 
-When you check the project called "Payment.UnitTests", you will see test cases running on "Validators". I used FluentValidation and I like to use FluentValidation (A friend in need).
+When you check the project called "Payment.UnitTests", you will see test cases running on "Validators". I used FluentValidation and I like to use FluentValidation.
 
 The other project is "Payment.IntegrationTests". I created a WebApplicationFactory from "Payment.Api" and I called the endpoint of the payment link. All of the validations and requests have been written.
 
