@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using FluentValidation.TestHelper;
 using Payment.Api.Models;
 using Payment.Api.Resources;
+using Payment.Api.Utils;
 using Payment.Api.Validators;
 using Xunit;
 
@@ -43,7 +44,7 @@ namespace Payment.Tests.Validators
         [InlineData("")]
         [InlineData(" ")]
         [InlineData(null)]
-        public async Task When_Card_Owner_Is_Valid_Should_Have_Validation_Error(string cardOwner)
+        public async Task When_Card_Owner_Is_Invalid_Should_Have_Validation_Error(string cardOwner)
         {
             var model = new PaymentLinkPayByCreditCardDTO
             {
@@ -89,7 +90,7 @@ namespace Payment.Tests.Validators
         [InlineData("")]
         [InlineData(" ")]
         [InlineData(null)]
-        public async Task When_Credit_Card_Number_Is_Valid_Should_Have_Validation_Error(string creditCardNumber)
+        public async Task When_Credit_Card_Number_Is_Invalid_Should_Have_Validation_Error(string creditCardNumber)
         {
             var model = new PaymentLinkPayByCreditCardDTO
             {
@@ -102,11 +103,11 @@ namespace Payment.Tests.Validators
                 .WithErrorMessage(ErrorMessagesResources.CreditCardNumberInvalid);
         }
 
-        
+
         [Theory]
         [InlineData("50001234567890010000")]
         [InlineData("6250947000000014")]
-        public async Task When_Credit_Card_Number_Is_Valid_Type_Should_Have_Validation_Error(string creditCardNumber)
+        public async Task When_Credit_Card_Number_Is_Invalid_Type_Should_Have_Validation_Error(string creditCardNumber)
         {
             var model = new PaymentLinkPayByCreditCardDTO
             {
@@ -118,6 +119,7 @@ namespace Payment.Tests.Validators
             result.ShouldHaveValidationErrorFor(x => x.CreditCardNumber)
                 .WithErrorMessage(ErrorMessagesResources.CreditCardTypeInvalid);
         }
+
         #endregion
 
         #region Issue Date
@@ -133,7 +135,14 @@ namespace Payment.Tests.Validators
                 IssueDate = issueDate
             };
 
+          
+            ClockUtils.Freeze();
+            ClockUtils.SetDateTime(new DateTime(2021, 12, 1));
+
             var result = await _validator.TestValidateAsync(model);
+
+            ClockUtils.UnFreeze();
+
 
             result.ShouldNotHaveValidationErrorFor(x => x.IssueDate);
         }
@@ -147,16 +156,42 @@ namespace Payment.Tests.Validators
         [InlineData("")]
         [InlineData(" ")]
         [InlineData(null)]
-        [InlineData("12/20")]
-        [InlineData("12/21")]
-        public async Task When_Issue_Date_Is_Valid_Should_Have_Validation_Error(string IssueDate)
+        public async Task When_Issue_Date_Is_Invalid_Should_Have_Validation_Error(string issueDate)
         {
             var model = new PaymentLinkPayByCreditCardDTO
             {
-                IssueDate = IssueDate
+                IssueDate = issueDate
             };
 
             var result = await _validator.TestValidateAsync(model);
+
+            result.ShouldHaveValidationErrorFor(x => x.IssueDate)
+                .WithErrorMessage(ErrorMessagesResources.IssueDateInvalid);
+        }
+
+
+        [Theory]
+        [InlineData("12/20", 2020, 12)]
+        [InlineData("12/21", 2021, 12)]
+        [InlineData("12/22", 2022, 12)]
+        [InlineData("12/22", 2023, 12)]
+        [InlineData("11/22", 2022, 12)]
+        [InlineData("10/21", 2023, 01)]
+        [InlineData("10", 2023, 01)]
+        public async Task When_Issue_Date_Is_Invalid_With_ClockUtil_Should_Have_Validation_Error(string issueDate,
+            int year, int month)
+        {
+            var model = new PaymentLinkPayByCreditCardDTO
+            {
+                IssueDate = issueDate
+            };
+
+            ClockUtils.Freeze();
+            ClockUtils.SetDateTime(new DateTime(year, month, 1));
+
+            var result = await _validator.TestValidateAsync(model);
+
+            ClockUtils.UnFreeze();
 
             result.ShouldHaveValidationErrorFor(x => x.IssueDate)
                 .WithErrorMessage(ErrorMessagesResources.IssueDateInvalid);
