@@ -68,5 +68,11 @@ namespace Payment.Api.Resources {
                 return ResourceManager.GetString("IssueDateInvalid", resourceCulture);
             }
         }
+        
+        public static string CVCInvalid {
+            get {
+                return ResourceManager.GetString("CVCInvalid", resourceCulture);
+            }
+        }
     }
 }

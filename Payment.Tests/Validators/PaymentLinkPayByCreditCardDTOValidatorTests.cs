@@ -1,5 +1,7 @@
 using System;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using FluentAssertions;
 using FluentValidation.TestHelper;
 using Payment.Api.Models;
 using Payment.Api.Resources;
@@ -34,7 +36,6 @@ namespace Payment.Tests.Validators
 
             result.ShouldNotHaveValidationErrorFor(x => x.CardOwner);
         }
-
 
         [Theory]
         [InlineData("E")]
@@ -135,7 +136,7 @@ namespace Payment.Tests.Validators
                 IssueDate = issueDate
             };
 
-          
+
             ClockUtils.Freeze();
             ClockUtils.SetDateTime(new DateTime(2021, 12, 1));
 
@@ -195,6 +196,47 @@ namespace Payment.Tests.Validators
 
             result.ShouldHaveValidationErrorFor(x => x.IssueDate)
                 .WithErrorMessage(ErrorMessagesResources.IssueDateInvalid);
+        }
+
+        #endregion
+
+        #region CVC
+
+        [Theory]
+        [InlineData("012")]
+        [InlineData("0123")]
+        public async Task When_CVC_Is_Valid_Should_Not_Have_Validation_Error(string cvc)
+        {
+            var model = new PaymentLinkPayByCreditCardDTO
+            {
+                CVC = cvc
+            };
+
+            var result = await _validator.TestValidateAsync(model);
+
+            result.ShouldNotHaveValidationErrorFor(x => x.CVC);
+        }
+
+        [Theory]
+        [InlineData("E")]
+        [InlineData("E_")]
+        [InlineData("EK_")]
+        [InlineData("EK")]
+        [InlineData("___")]
+        [InlineData("EKE")]
+        [InlineData("")]
+        [InlineData(" ")]
+        [InlineData(null)]
+        public async Task When_CVC_Is_Invalid_Should_Have_Validation_Error(string cvc)
+        {
+            var model = new PaymentLinkPayByCreditCardDTO
+            {
+                CVC = cvc
+            };
+
+            var result = await _validator.TestValidateAsync(model);
+
+            result.ShouldHaveValidationErrorFor(x => x.CVC);
         }
 
         #endregion

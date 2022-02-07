@@ -28,8 +28,13 @@ namespace Payment.Api.Validators
                 .NotEmpty().WithMessage(ErrorMessagesResources.IssueDateInvalid)
                 .Matches(@"^(0[1-9]|1[0-2])\/(2[2-9])$").WithMessage(ErrorMessagesResources.IssueDateInvalid)
                 .Must(ValidateIssueDate).WithMessage(ErrorMessagesResources.IssueDateInvalid);
+            
+            RuleFor(x => x.CVC)
+                .NotNull().WithMessage(ErrorMessagesResources.CVCInvalid)
+                .NotEmpty().WithMessage(ErrorMessagesResources.CVCInvalid)
+                .Matches("^[0-9]{3,4}$").WithMessage(ErrorMessagesResources.CVCInvalid);
         }
-
+        
         private bool ValidateIssueDate(string arg)
         {
             if (string.IsNullOrEmpty(arg) || string.IsNullOrWhiteSpace(arg))
