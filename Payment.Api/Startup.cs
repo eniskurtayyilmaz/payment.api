@@ -26,7 +26,6 @@ namespace Payment.Api
                 fv.RegisterValidatorsFromAssemblyContaining<PaymentLinkPayByCreditCardRequestDTOValidator>());
             services.AddSingleton<IPaymentService, PaymentService>();
             services.AddControllers();
-            ;
             services.AddSwaggerGen();
         }
 

@@ -9,7 +9,7 @@ using Payment.Api.Utils;
 using Payment.Api.Validators;
 using Xunit;
 
-namespace Payment.Tests.Validators
+namespace Payment.UnitTests.Validators
 {
     public class PaymentLinkPayByCreditCardDTOValidatorTests
     {
@@ -240,5 +240,25 @@ namespace Payment.Tests.Validators
         }
 
         #endregion
+
+        [Theory]
+        [InlineData("Enis Kurtay", "4012888888881881", "12/24", "468")] //Visa
+        [InlineData("Uras Koray", "5204245250001488", "12/24", "468")] //Mastercard
+        [InlineData("Sena Ablak", "374251018720018", "12/24", "468")] //Amex
+        public async Task When_All_Data_Correct_Should_Not_Have_Validation_Error(string cardOwner, string cardNumber,
+            string issueDate, string cvc)
+        {
+            var model = new PaymentLinkPayByCreditCardRequestDTO
+            {
+                CardOwner = cardOwner,
+                CreditCardNumber = cardNumber,
+                IssueDate = issueDate,
+                CVC = cvc
+            };
+
+            var result = await _validator.TestValidateAsync(model);
+
+            result.ShouldNotHaveAnyValidationErrors();
+        }
     }
 }
