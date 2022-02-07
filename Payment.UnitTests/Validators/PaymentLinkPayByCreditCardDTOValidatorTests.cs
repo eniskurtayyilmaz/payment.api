@@ -9,7 +9,7 @@ using Payment.Api.Utils;
 using Payment.Api.Validators;
 using Xunit;
 
-namespace Payment.Tests.Validators
+namespace Payment.UnitTests.Validators
 {
     public class PaymentLinkPayByCreditCardDTOValidatorTests
     {
