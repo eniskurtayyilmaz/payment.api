@@ -21,4 +21,10 @@
     <data name="CardOwnerInvalid" xml:space="preserve">
         <value>Card Owner is invalid</value>
     </data>
+    <data name="CreditCardNumberInvalid" xml:space="preserve">
+        <value>Credit Card Number is invalid</value>
+    </data>
+    <data name="CreditCardTypeInvalid" xml:space="preserve">
+        <value>Credit Card Type is invalid</value>
+    </data>
 </root>

@@ -50,5 +50,17 @@ namespace Payment.Api.Resources {
                 return ResourceManager.GetString("CardOwnerInvalid", resourceCulture);
             }
         }
+        
+        public static string CreditCardNumberInvalid {
+            get {
+                return ResourceManager.GetString("CreditCardNumberInvalid", resourceCulture);
+            }
+        }
+        
+        public static string CreditCardTypeInvalid {
+            get {
+                return ResourceManager.GetString("CreditCardTypeInvalid", resourceCulture);
+            }
+        }
     }
 }
