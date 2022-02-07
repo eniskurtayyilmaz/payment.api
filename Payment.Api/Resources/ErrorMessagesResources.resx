@@ -25,6 +25,9 @@
         <value>Credit Card Number is invalid</value>
     </data>
     <data name="CreditCardTypeInvalid" xml:space="preserve">
-        <value>Credit Card Type is invalid</value>
+        <value>Credit Card Type is invalid. Only accepted Amex, Mastercard and Visa</value>
+    </data>
+    <data name="IssueDateInvalid" xml:space="preserve">
+        <value>Issue Date is invalid</value>
     </data>
 </root>

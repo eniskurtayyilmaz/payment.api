@@ -62,5 +62,11 @@ namespace Payment.Api.Resources {
                 return ResourceManager.GetString("CreditCardTypeInvalid", resourceCulture);
             }
         }
+        
+        public static string IssueDateInvalid {
+            get {
+                return ResourceManager.GetString("IssueDateInvalid", resourceCulture);
+            }
+        }
     }
 }

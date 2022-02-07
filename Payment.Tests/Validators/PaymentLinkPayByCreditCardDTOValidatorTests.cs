@@ -58,12 +58,12 @@ namespace Payment.Tests.Validators
 
         #endregion
 
-        #region Credit Card
+        #region Credit Card Number
 
         [Theory]
         [InlineData("4012888888881881")] //Visa
         [InlineData("5204245250001488")] //Mastercard
-        [InlineData("5204245250001488")] //Amex
+        [InlineData("374251018720018")] //Amex
         public async Task When_Credit_Card_Number_Is_Valid_Should_Not_Have_Validation_Error(string creditCardNumber)
         {
             var model = new PaymentLinkPayByCreditCardDTO
@@ -118,6 +118,50 @@ namespace Payment.Tests.Validators
             result.ShouldHaveValidationErrorFor(x => x.CreditCardNumber)
                 .WithErrorMessage(ErrorMessagesResources.CreditCardTypeInvalid);
         }
+        #endregion
+
+        #region Issue Date
+
+        [Theory]
+        [InlineData("12/24")]
+        [InlineData("12/22")]
+        [InlineData("01/23")]
+        public async Task When_Issue_Date_Is_Valid_Should_Not_Have_Validation_Error(string issueDate)
+        {
+            var model = new PaymentLinkPayByCreditCardDTO
+            {
+                IssueDate = issueDate
+            };
+
+            var result = await _validator.TestValidateAsync(model);
+
+            result.ShouldNotHaveValidationErrorFor(x => x.IssueDate);
+        }
+
+
+        [Theory]
+        [InlineData("E")]
+        [InlineData("E_")]
+        [InlineData("EK_")]
+        [InlineData("EK")]
+        [InlineData("")]
+        [InlineData(" ")]
+        [InlineData(null)]
+        [InlineData("12/20")]
+        [InlineData("12/21")]
+        public async Task When_Issue_Date_Is_Valid_Should_Have_Validation_Error(string IssueDate)
+        {
+            var model = new PaymentLinkPayByCreditCardDTO
+            {
+                IssueDate = IssueDate
+            };
+
+            var result = await _validator.TestValidateAsync(model);
+
+            result.ShouldHaveValidationErrorFor(x => x.IssueDate)
+                .WithErrorMessage(ErrorMessagesResources.IssueDateInvalid);
+        }
+
         #endregion
     }
 }
