@@ -7,9 +7,9 @@ using Payment.Api.Utils;
 
 namespace Payment.Api.Validators
 {
-    public class PaymentLinkPayByCreditCardDTOValidator : AbstractValidator<PaymentLinkPayByCreditCardDTO>
+    public class PaymentLinkPayByCreditCardRequestDTOValidator : AbstractValidator<PaymentLinkPayByCreditCardRequestDTO>
     {
-        public PaymentLinkPayByCreditCardDTOValidator()
+        public PaymentLinkPayByCreditCardRequestDTOValidator()
         {
             RuleFor(x => x.CardOwner)
                 .NotNull().WithMessage(ErrorMessagesResources.CardOwnerInvalid)

@@ -13,11 +13,11 @@ namespace Payment.Tests.Validators
 {
     public class PaymentLinkPayByCreditCardDTOValidatorTests
     {
-        private readonly PaymentLinkPayByCreditCardDTOValidator _validator;
+        private readonly PaymentLinkPayByCreditCardRequestDTOValidator _validator;
 
         public PaymentLinkPayByCreditCardDTOValidatorTests()
         {
-            this._validator = new PaymentLinkPayByCreditCardDTOValidator();
+            this._validator = new PaymentLinkPayByCreditCardRequestDTOValidator();
         }
 
         #region Card Owner
@@ -27,7 +27,7 @@ namespace Payment.Tests.Validators
         [InlineData("Ali")]
         public async Task When_Card_Owner_Is_Valid_Should_Not_Have_Validation_Error(string cardOwner)
         {
-            var model = new PaymentLinkPayByCreditCardDTO
+            var model = new PaymentLinkPayByCreditCardRequestDTO
             {
                 CardOwner = cardOwner
             };
@@ -47,7 +47,7 @@ namespace Payment.Tests.Validators
         [InlineData(null)]
         public async Task When_Card_Owner_Is_Invalid_Should_Have_Validation_Error(string cardOwner)
         {
-            var model = new PaymentLinkPayByCreditCardDTO
+            var model = new PaymentLinkPayByCreditCardRequestDTO
             {
                 CardOwner = cardOwner
             };
@@ -68,7 +68,7 @@ namespace Payment.Tests.Validators
         [InlineData("374251018720018")] //Amex
         public async Task When_Credit_Card_Number_Is_Valid_Should_Not_Have_Validation_Error(string creditCardNumber)
         {
-            var model = new PaymentLinkPayByCreditCardDTO
+            var model = new PaymentLinkPayByCreditCardRequestDTO
             {
                 CreditCardNumber = creditCardNumber
             };
@@ -93,7 +93,7 @@ namespace Payment.Tests.Validators
         [InlineData(null)]
         public async Task When_Credit_Card_Number_Is_Invalid_Should_Have_Validation_Error(string creditCardNumber)
         {
-            var model = new PaymentLinkPayByCreditCardDTO
+            var model = new PaymentLinkPayByCreditCardRequestDTO
             {
                 CreditCardNumber = creditCardNumber
             };
@@ -110,7 +110,7 @@ namespace Payment.Tests.Validators
         [InlineData("6250947000000014")]
         public async Task When_Credit_Card_Number_Is_Invalid_Type_Should_Have_Validation_Error(string creditCardNumber)
         {
-            var model = new PaymentLinkPayByCreditCardDTO
+            var model = new PaymentLinkPayByCreditCardRequestDTO
             {
                 CreditCardNumber = creditCardNumber
             };
@@ -131,7 +131,7 @@ namespace Payment.Tests.Validators
         [InlineData("01/23")]
         public async Task When_Issue_Date_Is_Valid_Should_Not_Have_Validation_Error(string issueDate)
         {
-            var model = new PaymentLinkPayByCreditCardDTO
+            var model = new PaymentLinkPayByCreditCardRequestDTO
             {
                 IssueDate = issueDate
             };
@@ -159,7 +159,7 @@ namespace Payment.Tests.Validators
         [InlineData(null)]
         public async Task When_Issue_Date_Is_Invalid_Should_Have_Validation_Error(string issueDate)
         {
-            var model = new PaymentLinkPayByCreditCardDTO
+            var model = new PaymentLinkPayByCreditCardRequestDTO
             {
                 IssueDate = issueDate
             };
@@ -182,7 +182,7 @@ namespace Payment.Tests.Validators
         public async Task When_Issue_Date_Is_Invalid_With_ClockUtil_Should_Have_Validation_Error(string issueDate,
             int year, int month)
         {
-            var model = new PaymentLinkPayByCreditCardDTO
+            var model = new PaymentLinkPayByCreditCardRequestDTO
             {
                 IssueDate = issueDate
             };
@@ -207,7 +207,7 @@ namespace Payment.Tests.Validators
         [InlineData("0123")]
         public async Task When_CVC_Is_Valid_Should_Not_Have_Validation_Error(string cvc)
         {
-            var model = new PaymentLinkPayByCreditCardDTO
+            var model = new PaymentLinkPayByCreditCardRequestDTO
             {
                 CVC = cvc
             };
@@ -229,7 +229,7 @@ namespace Payment.Tests.Validators
         [InlineData(null)]
         public async Task When_CVC_Is_Invalid_Should_Have_Validation_Error(string cvc)
         {
-            var model = new PaymentLinkPayByCreditCardDTO
+            var model = new PaymentLinkPayByCreditCardRequestDTO
             {
                 CVC = cvc
             };

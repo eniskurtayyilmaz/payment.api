@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Payment.Api.Extensions;
+using Payment.Api.Services;
 using Payment.Api.Validators;
 
 namespace Payment.Api
@@ -20,8 +21,12 @@ namespace Payment.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<PaymentLinkPayByCreditCardDTOValidator>());
+            services.AddHealthChecks();
+            services.AddFluentValidation(fv =>
+                fv.RegisterValidatorsFromAssemblyContaining<PaymentLinkPayByCreditCardRequestDTOValidator>());
+            services.AddSingleton<IPaymentService, PaymentService>();
             services.AddControllers();
+            ;
             services.AddSwaggerGen();
         }
 
@@ -38,7 +43,6 @@ namespace Payment.Api
             app.UseRouting();
 
             app.ConfigureHealthCheck();
-
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
