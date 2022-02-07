@@ -54,12 +54,7 @@ namespace Payment.Api.Validators
             var year = Convert.ToInt32(currentDateTime.ToString("yy"));
             var month = currentDateTime.Month;
 
-            if (year > convertedYear || (year >= convertedYear && month >= convertedMonth))
-            {
-                return false;
-            }
-
-            return true;
+            return year <= convertedYear && (year < convertedYear || month < convertedMonth);
         }
     }
 }
