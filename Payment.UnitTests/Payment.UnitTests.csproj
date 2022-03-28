@@ -22,6 +22,8 @@
     <PackageReference Include="FluentMigrator.Runner" Version="3.3.1" />
     <PackageReference Include="Microsoft.Data.Sqlite" Version="5.0.9" />
     <PackageReference Include="Moq" Version="4.16.1" />
+    <PackageReference Include="SpecFlow.Tools.MsBuild.Generation" Version="3.9.52" />
+    <PackageReference Include="SpecFlow.xUnit" Version="3.9.52" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
