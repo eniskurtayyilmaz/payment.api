@@ -1,5 +1,4 @@
 Feature: CreditCardSpecflow
-Simple calculator for adding two numbers
 
     Scenario: Card Owner is ek
         Given the card owner is ek

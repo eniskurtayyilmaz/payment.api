@@ -35,7 +35,7 @@ namespace Payment.IntegrationTests.Feature
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Feature", "CreditCardSpecflow", "Simple calculator for adding two numbers", ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Feature", "CreditCardSpecflow", null, ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -80,7 +80,7 @@ namespace Payment.IntegrationTests.Feature
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Card Owner is ek", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 4
+#line 3
     this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -100,13 +100,13 @@ namespace Payment.IntegrationTests.Feature
             else
             {
                 this.ScenarioStart();
-#line 5
+#line 4
         testRunner.Given("the card owner is ek", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 6
+#line 5
         testRunner.When("I request with card number", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 7
+#line 6
         testRunner.Then("the result must invalid", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
@@ -120,7 +120,7 @@ namespace Payment.IntegrationTests.Feature
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Card Owner is e", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 9
+#line 8
     this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -140,13 +140,13 @@ namespace Payment.IntegrationTests.Feature
             else
             {
                 this.ScenarioStart();
-#line 10
+#line 9
         testRunner.Given("the card owner is e", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 11
+#line 10
         testRunner.When("I request with card number", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 12
+#line 11
         testRunner.Then("the result must invalid", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
