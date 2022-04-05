@@ -1,0 +1,24 @@
+﻿using System.Text.RegularExpressions;
+
+namespace Payment.Api.Validators
+{
+    public class CvcValidator : Validator<string>
+    {
+        public CvcValidator(string cvc) : base(cvc)
+        {
+        }
+
+        public override ValidatorResult IsValid()
+        {
+            var arg = this.ObjectValue;
+            if (string.IsNullOrEmpty(arg) || string.IsNullOrWhiteSpace(arg))
+            {
+                return new ValidatorResult("Cvc not be null");
+            }
+
+            return Regex.IsMatch(arg, "^[0-9]{3,4}$")
+                ? new ValidatorResult(true)
+                : new ValidatorResult("CVC is invalid");
+        }
+    }
+}
