@@ -14,45 +14,48 @@ namespace Payment.Api.Validators
 
     public class ValidatorFactory
     {
-        private readonly string _cardOwnerInformation;
         private readonly string _creditCardNumber;
-        private readonly string _expireDate;
-        private readonly string _cvc;
 
-        public ValidatorFactory(string cardOwnerInformation, string creditCardNumber, string expireDate, string cvc)
+        private IList<IValidator> _validators;
+        public ValidatorFactory(string creditCardNumber)
         {
-            _cardOwnerInformation = cardOwnerInformation;
             _creditCardNumber = creditCardNumber;
-            _expireDate = expireDate;
-            _cvc = cvc;
         }
 
-        public IList<IValidator> GetValidators(CreditCardType validationType)
+        public IList<IValidator> GetValidators(CreditCardType? validationType)
         {
-            IList<IValidator> validators = GetDefaultValidators();
+            if (_validators == null)
+            {
+                _validators = new List<IValidator>();
+            }
+
+            if (!validationType.HasValue) return _validators;
 
             switch (validationType)
             {
                 case CreditCardType.MasterCard:
-                    validators.Add(new MasterCreditCardValidator(_creditCardNumber));
+                    _validators.Add(new MasterCreditCardValidator(_creditCardNumber));
                     break;
 
                 case CreditCardType.Visa:
-                    validators.Add(new VisaCardValidator(_creditCardNumber));
+                    _validators.Add(new VisaCardValidator(_creditCardNumber));
                     break;
 
                 case CreditCardType.Amex:
-                    validators.Add(new AmericanExpressCardValidator(_creditCardNumber));
+                    _validators.Add(new AmericanExpressCardValidator(_creditCardNumber));
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(validationType), validationType, null);
+                    throw new ArgumentOutOfRangeException();
             }
 
-            return validators;
+            return _validators;
         }
 
-        public IList<IValidator> GetDefaultValidators()
+        public void SetValidators(IList<IValidator> validators)
         {
+            this._validators = validators;
+
+            /* 
             return new List<IValidator>()
             {
                 new ExpireDateValidator(this._expireDate),
@@ -60,6 +63,7 @@ namespace Payment.Api.Validators
                 new CardOwnerInformationValidator(this._cardOwnerInformation),
                 new CardNumberValidator(this._creditCardNumber)
             };
+            */
         }
     }
 }

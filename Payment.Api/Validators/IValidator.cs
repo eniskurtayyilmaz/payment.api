@@ -4,7 +4,7 @@ namespace Payment.Api.Validators
 {
     public interface IValidator
     {
-        ValidatorResult IsValid();
+        ValidatorResult Validate();
     }
 
     public abstract class Validator<TModel> : IValidator
@@ -16,6 +16,6 @@ namespace Payment.Api.Validators
             this.ObjectValue = objectValue;
         }
         
-        public abstract ValidatorResult IsValid();
+        public abstract ValidatorResult Validate();
     }
 }

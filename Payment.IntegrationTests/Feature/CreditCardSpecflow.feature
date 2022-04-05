@@ -12,6 +12,18 @@ Examples:
 	|           |
 
 Scenario: Verify that wrong CVC not accepted
+	Given the CVC is <cvc>
+	When I set validations, getting validators
+	Then CVC must invalid
+
+Examples:
+	| cvc    |
+	| 123456 |
+	| 12     |
+	|        |
+	| abc    |
+	| 1a2    |
+
 	
 Scenario: Verify that wrong expiration date not accepted
 

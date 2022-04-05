@@ -9,7 +9,7 @@ namespace Payment.Api.Validators
 
         }
 
-        public override ValidatorResult IsValid()
+        public override ValidatorResult Validate()
         {
             var arg = this.ObjectValue;
             return Regex.IsMatch(arg, "^4[0-9]{12}(?:[0-9]{3})?$")

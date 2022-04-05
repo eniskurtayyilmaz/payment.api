@@ -7,7 +7,7 @@
 
         }
 
-        public override ValidatorResult IsValid()
+        public override ValidatorResult Validate()
         {
             var arg = this.ObjectValue;
             if (string.IsNullOrEmpty(arg) || string.IsNullOrWhiteSpace(arg))
