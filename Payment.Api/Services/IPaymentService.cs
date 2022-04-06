@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Payment.Api.Models;
+using Payment.Api.Validators;
 
 namespace Payment.Api.Services
 {
@@ -13,9 +15,9 @@ namespace Payment.Api.Services
     {
         public async Task<PaymentLinkPayByCreditCardResponseDTO> TakePayment(PaymentLinkPayByCreditCardRequestDTO requestModel)
         {
-            
+
             //Business Logic
-            
+          
             //Queue -> if purchase is valid.
 
 

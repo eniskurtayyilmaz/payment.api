@@ -69,12 +69,9 @@ namespace Payment.IntegrationTests
             var responseObj = await response.Content.ReadFromJsonAsync<ErrorResponseModel>();
 
             responseObj.Should().NotBeNull();
-
-            responseObj.errors.Should().NotBeNull();
-            responseObj.errors.CardOwner.Should().NotBeNull();
-            responseObj.errors.CardOwner.Should().NotBeEmpty();
-            responseObj.errors.CardOwner.Should().HaveCount(1);
-            responseObj.errors.CardOwner.First().Should().Be(ErrorMessagesResources.CardOwnerInvalid);
+            responseObj.Error.Should().NotBeNull();
+            responseObj.Error.Should().NotBeEmpty();
+            responseObj.Error.Should().Contain("Card owner");
         }
 
         [Test]
@@ -95,8 +92,9 @@ namespace Payment.IntegrationTests
 
             responseObj.Should().NotBeNull();
 
-            responseObj.errors.Should().NotBeNull();
-            responseObj.errors.CardOwner.Should().BeNull();
+            responseObj.Error.Should().NotBeNull();
+            responseObj.Error.Should().NotBeNull();
+            responseObj.Error.Should().NotBeEmpty();
         }
 
         [Test]
@@ -125,13 +123,9 @@ namespace Payment.IntegrationTests
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
             var responseObj = await response.Content.ReadFromJsonAsync<ErrorResponseModel>();
 
+
             responseObj.Should().NotBeNull();
-
-            responseObj.errors.Should().NotBeNull();
-            responseObj.errors.CreditCardNumber.Should().NotBeNull();
-            responseObj.errors.CreditCardNumber.Should().NotBeEmpty();
-
-            responseObj.errors.CreditCardNumber.First().Should().Be(ErrorMessagesResources.CreditCardNumberInvalid);
+            responseObj.Error.Should().NotBeNull();
         }
 
         [Test]
@@ -151,11 +145,7 @@ namespace Payment.IntegrationTests
             var responseObj = await response.Content.ReadFromJsonAsync<ErrorResponseModel>();
 
             responseObj.Should().NotBeNull();
-
-            responseObj.errors.Should().NotBeNull();
-            responseObj.errors.CreditCardNumber.Should().NotBeNull();
-            responseObj.errors.CreditCardNumber.Should().NotBeEmpty();
-            responseObj.errors.CreditCardNumber.Contains(ErrorMessagesResources.CreditCardTypeInvalid);
+            responseObj.Error.Should().NotBeNull();
         }
 
         [Test]
@@ -175,10 +165,9 @@ namespace Payment.IntegrationTests
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
             var responseObj = await response.Content.ReadFromJsonAsync<ErrorResponseModel>();
 
-            responseObj.Should().NotBeNull();
 
-            responseObj.errors.Should().NotBeNull();
-            responseObj.errors.CreditCardNumber.Should().BeNull();
+            responseObj.Should().NotBeNull();
+            responseObj.Error.Should().NotBeNull();
         }
 
         [Test]
@@ -204,13 +193,9 @@ namespace Payment.IntegrationTests
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
             var responseObj = await response.Content.ReadFromJsonAsync<ErrorResponseModel>();
 
-            responseObj.Should().NotBeNull();
 
-            responseObj.errors.Should().NotBeNull();
-            responseObj.errors.CVC.Should().NotBeNull();
-            responseObj.errors.CVC.Should().NotBeEmpty();
-            responseObj.errors.CVC.Should().HaveCount(1);
-            responseObj.errors.CVC.First().Should().Be(ErrorMessagesResources.CVCInvalid);
+            responseObj.Should().NotBeNull();
+            responseObj.Error.Should().NotBeNull();
         }
 
         [Test]
@@ -231,9 +216,7 @@ namespace Payment.IntegrationTests
             var responseObj = await response.Content.ReadFromJsonAsync<ErrorResponseModel>();
 
             responseObj.Should().NotBeNull();
-
-            responseObj.errors.Should().NotBeNull();
-            responseObj.errors.CVC.Should().BeNull();
+            responseObj.Error.Should().NotBeNull();
         }
 
 
@@ -259,12 +242,7 @@ namespace Payment.IntegrationTests
             var responseObj = await response.Content.ReadFromJsonAsync<ErrorResponseModel>();
 
             responseObj.Should().NotBeNull();
-
-            responseObj.errors.Should().NotBeNull();
-            responseObj.errors.IssueDate.Should().NotBeNull();
-            responseObj.errors.IssueDate.Should().NotBeEmpty();
-            responseObj.errors.IssueDate.Should().HaveCount(1);
-            responseObj.errors.IssueDate.First().Should().Be(ErrorMessagesResources.IssueDateInvalid);
+            responseObj.Error.Should().NotBeNull();
         }
 
         [Test]
@@ -285,9 +263,7 @@ namespace Payment.IntegrationTests
             var responseObj = await response.Content.ReadFromJsonAsync<ErrorResponseModel>();
 
             responseObj.Should().NotBeNull();
-
-            responseObj.errors.Should().NotBeNull();
-            responseObj.errors.IssueDate.Should().BeNull();
+            responseObj.Error.Should().NotBeNull();
         }
 
 
