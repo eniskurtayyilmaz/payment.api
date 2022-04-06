@@ -44,6 +44,7 @@ namespace Payment.Api.Validators
                 case CreditCardType.Amex:
                     _validators.Add(new AmericanExpressCardValidator(_creditCardNumber));
                     break;
+
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -56,7 +57,7 @@ namespace Payment.Api.Validators
             this._validators = validators;
 
             /* 
-            return new List<IValidator>()
+            this._validators = new List<IValidator>()
             {
                 new ExpireDateValidator(this._expireDate),
                 new CvcValidator(this._cvc),

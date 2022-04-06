@@ -10,32 +10,31 @@ using TechTalk.SpecFlow;
 namespace Payment.IntegrationTests.Definitions
 {
     [Binding]
-    public class CVCDefinitions
+    public class ExpirationDateDefinitions
     {
         private readonly ScenarioContext _scenarioContext;
         private ValidatorFactory _validatorFactory;
-        private string _cvc;
+        private string _exp;
 
 
-        public CVCDefinitions(ScenarioContext scenarioContext)
+        public ExpirationDateDefinitions(ScenarioContext scenarioContext)
         {
             _scenarioContext = scenarioContext;
         }
 
-
-        [Given(@"the CVC is (.*)")]
-        public void GivenTheCVCIs(string cvc)
+        [Given(@"the expiration date is (.*)")]
+        public void GivenTheExpirationDateIs(string exp)
         {
             _validatorFactory = new ValidatorFactory("");
-            _cvc = cvc;
+            _exp = exp;
         }
 
-        [When(@"I set CVC validations, getting validators")]
+        [When(@"I set expiration date validations, getting validators")]
         public void WhenISetValidationsGettingValidators()
         {
             _validatorFactory.SetValidators(new List<IValidator>()
             {
-                new CvcValidator(_cvc)
+                new ExpireDateValidator(_exp)
             });
 
             var validators = _validatorFactory.GetValidators(null);
@@ -43,7 +42,7 @@ namespace Payment.IntegrationTests.Definitions
         }
 
 
-        [Then(@"CVC must invalid")]
+        [Then(@"Expiration date must invalid")]
         public void ThenCVCMustInvalid()
         {
 
@@ -53,10 +52,9 @@ namespace Payment.IntegrationTests.Definitions
 
             var validator = validators.First();
             validator.Should().NotBeNull();
-            validator.Should().BeAssignableTo<CvcValidator>();
+            validator.Should().BeAssignableTo<ExpireDateValidator>();
             validator.Validate().Should().NotBeNull();
             validator.Validate().IsValid.Should().BeFalse();
         }
-        
     }
 }

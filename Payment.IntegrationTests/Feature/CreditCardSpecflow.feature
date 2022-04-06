@@ -11,9 +11,10 @@ Examples:
 	| e         |
 	|           |
 
+@Done
 Scenario: Verify that wrong CVC not accepted
 	Given the CVC is <cvc>
-	When I set validations, getting validators
+	When I set CVC validations, getting validators
 	Then CVC must invalid
 
 Examples:
@@ -24,8 +25,23 @@ Examples:
 	| abc    |
 	| 1a2    |
 
-	
+@Done	
 Scenario: Verify that wrong expiration date not accepted
+	Given the expiration date is <exp>
+	When I set expiration date validations, getting validators
+	Then Expiration date must invalid
+
+Examples:
+	| exp    |
+	| 123456 |
+	| 12/21  |
+	| 12/20  |
+	| 01/22  |
+	| 12     |
+	|        |
+	| abc    |
+	| 1a2    |
+	| 1a2    |
 
 Scenario: Verify that wrong card owner information not accepted
 
