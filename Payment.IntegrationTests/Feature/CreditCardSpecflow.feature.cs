@@ -75,7 +75,6 @@ namespace Payment.IntegrationTests.Feature
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Verify that wrong credit card number not accepted")]
-        [NUnit.Framework.CategoryAttribute("Done")]
         [NUnit.Framework.TestCaseAttribute("5000-1234-5678-9001-0000", null)]
         [NUnit.Framework.TestCaseAttribute("5000 1234 5678 9001 0000", null)]
         [NUnit.Framework.TestCaseAttribute("5000-1234-5678-9001", null)]
@@ -89,13 +88,7 @@ namespace Payment.IntegrationTests.Feature
         [NUnit.Framework.TestCaseAttribute("52042452500014282", null)]
         public virtual void VerifyThatWrongCreditCardNumberNotAccepted(string cardnumber, string[] exampleTags)
         {
-            string[] @__tags = new string[] {
-                    "Done"};
-            if ((exampleTags != null))
-            {
-                @__tags = System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Concat(@__tags, exampleTags));
-            }
-            string[] tagsOfScenario = @__tags;
+            string[] tagsOfScenario = exampleTags;
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             argumentsOfScenario.Add("cardnumber", cardnumber);
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Verify that wrong credit card number not accepted", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
@@ -134,7 +127,6 @@ this.ScenarioInitialize(scenarioInfo);
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Verify that wrong CVC not accepted")]
-        [NUnit.Framework.CategoryAttribute("Done")]
         [NUnit.Framework.TestCaseAttribute("123456", null)]
         [NUnit.Framework.TestCaseAttribute("12", null)]
         [NUnit.Framework.TestCaseAttribute("", null)]
@@ -142,13 +134,7 @@ this.ScenarioInitialize(scenarioInfo);
         [NUnit.Framework.TestCaseAttribute("1a2", null)]
         public virtual void VerifyThatWrongCVCNotAccepted(string cvc, string[] exampleTags)
         {
-            string[] @__tags = new string[] {
-                    "Done"};
-            if ((exampleTags != null))
-            {
-                @__tags = System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Concat(@__tags, exampleTags));
-            }
-            string[] tagsOfScenario = @__tags;
+            string[] tagsOfScenario = exampleTags;
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             argumentsOfScenario.Add("cvc", cvc);
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Verify that wrong CVC not accepted", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
@@ -187,7 +173,6 @@ this.ScenarioInitialize(scenarioInfo);
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Verify that wrong expiration date not accepted")]
-        [NUnit.Framework.CategoryAttribute("Done")]
         [NUnit.Framework.TestCaseAttribute("123456", null)]
         [NUnit.Framework.TestCaseAttribute("12/21", null)]
         [NUnit.Framework.TestCaseAttribute("12/20", null)]
@@ -199,13 +184,7 @@ this.ScenarioInitialize(scenarioInfo);
         [NUnit.Framework.TestCaseAttribute("122021", null)]
         public virtual void VerifyThatWrongExpirationDateNotAccepted(string exp, string[] exampleTags)
         {
-            string[] @__tags = new string[] {
-                    "Done"};
-            if ((exampleTags != null))
-            {
-                @__tags = System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Concat(@__tags, exampleTags));
-            }
-            string[] tagsOfScenario = @__tags;
+            string[] tagsOfScenario = exampleTags;
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             argumentsOfScenario.Add("exp", exp);
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Verify that wrong expiration date not accepted", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
@@ -244,7 +223,6 @@ this.ScenarioInitialize(scenarioInfo);
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Verify that wrong card owner information not accepted")]
-        [NUnit.Framework.CategoryAttribute("Done")]
         [NUnit.Framework.TestCaseAttribute("E", null)]
         [NUnit.Framework.TestCaseAttribute("E_", null)]
         [NUnit.Framework.TestCaseAttribute("1220", null)]
@@ -255,13 +233,7 @@ this.ScenarioInitialize(scenarioInfo);
         [NUnit.Framework.TestCaseAttribute("1a2", null)]
         public virtual void VerifyThatWrongCardOwnerInformationNotAccepted(string cardowner, string[] exampleTags)
         {
-            string[] @__tags = new string[] {
-                    "Done"};
-            if ((exampleTags != null))
-            {
-                @__tags = System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Concat(@__tags, exampleTags));
-            }
-            string[] tagsOfScenario = @__tags;
+            string[] tagsOfScenario = exampleTags;
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             argumentsOfScenario.Add("cardowner", cardowner);
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Verify that wrong card owner information not accepted", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
@@ -300,7 +272,6 @@ this.ScenarioInitialize(scenarioInfo);
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Verify that expired credit card doesn\'t accepted")]
-        [NUnit.Framework.CategoryAttribute("Done")]
         [NUnit.Framework.TestCaseAttribute("123456", "4012888888881881", null)]
         [NUnit.Framework.TestCaseAttribute("12/21", "5204245250001488", null)]
         [NUnit.Framework.TestCaseAttribute("12/20", "374251018720018", null)]
@@ -312,13 +283,7 @@ this.ScenarioInitialize(scenarioInfo);
         [NUnit.Framework.TestCaseAttribute("122021", "374251018720018", null)]
         public virtual void VerifyThatExpiredCreditCardDoesntAccepted(string exp, string cardnumber, string[] exampleTags)
         {
-            string[] @__tags = new string[] {
-                    "Done"};
-            if ((exampleTags != null))
-            {
-                @__tags = System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Concat(@__tags, exampleTags));
-            }
-            string[] tagsOfScenario = @__tags;
+            string[] tagsOfScenario = exampleTags;
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             argumentsOfScenario.Add("exp", exp);
             argumentsOfScenario.Add("cardnumber", cardnumber);
@@ -361,15 +326,9 @@ this.ScenarioInitialize(scenarioInfo);
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Verify that unknown credit card doesn\'t accepted")]
-        [NUnit.Framework.TestCaseAttribute("4012888888881881", null)]
-        [NUnit.Framework.TestCaseAttribute("5204245250001488", null)]
-        [NUnit.Framework.TestCaseAttribute("374251018720018", null)]
-        [NUnit.Framework.TestCaseAttribute("4012888888881881", null)]
-        [NUnit.Framework.TestCaseAttribute("5204245250001488", null)]
-        [NUnit.Framework.TestCaseAttribute("374251018720018", null)]
-        [NUnit.Framework.TestCaseAttribute("4012888888881881", null)]
-        [NUnit.Framework.TestCaseAttribute("5204245250001488", null)]
-        [NUnit.Framework.TestCaseAttribute("374251018720018", null)]
+        [NUnit.Framework.TestCaseAttribute("3530111333300000", null)]
+        [NUnit.Framework.TestCaseAttribute("6011111111111117", null)]
+        [NUnit.Framework.TestCaseAttribute("38520000023237", null)]
         public virtual void VerifyThatUnknownCreditCardDoesntAccepted(string cardnumber, string[] exampleTags)
         {
             string[] tagsOfScenario = exampleTags;
@@ -397,7 +356,7 @@ this.ScenarioInitialize(scenarioInfo);
             {
                 this.ScenarioStart();
 #line 94
- testRunner.Given("the unknown credit card is <creditcard>", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given(string.Format("the unknown credit card is {0}", cardnumber), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 95
  testRunner.When("I set known credit card validations, getting validators", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
@@ -411,12 +370,20 @@ this.ScenarioInitialize(scenarioInfo);
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Verify that valid credit card")]
-        public virtual void VerifyThatValidCreditCard()
+        [NUnit.Framework.TestCaseAttribute("4012888888881881", "enis kurtay", "08/29", "555", null)]
+        [NUnit.Framework.TestCaseAttribute("5204245250001488", "sergei prokopov", "07/26", "666", null)]
+        [NUnit.Framework.TestCaseAttribute("374251018720018", "uras koray", "12/24", "785", null)]
+        [NUnit.Framework.TestCaseAttribute("4012888888881881", "gokcen ozder", "11/24", "125", null)]
+        public virtual void VerifyThatValidCreditCard(string cardnumber, string cardowner, string exp, string cvc, string[] exampleTags)
         {
-            string[] tagsOfScenario = ((string[])(null));
+            string[] tagsOfScenario = exampleTags;
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            argumentsOfScenario.Add("cardnumber", cardnumber);
+            argumentsOfScenario.Add("cardowner", cardowner);
+            argumentsOfScenario.Add("exp", exp);
+            argumentsOfScenario.Add("cvc", cvc);
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Verify that valid credit card", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 111
+#line 105
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -436,6 +403,24 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
+#line 106
+ testRunner.Given(string.Format("the valid credit number is {0}", cardnumber), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 107
+ testRunner.And(string.Format("the valid card owner {0}", cardowner), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 108
+ testRunner.And(string.Format("the valid expiration date {0}", exp), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 109
+ testRunner.And(string.Format("the valid CVC {0}", cvc), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 110
+ testRunner.When("I set known credit card validations and other validations", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 111
+ testRunner.Then("all of informatin must be valid", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
             }
             this.ScenarioCleanup();
         }
