@@ -1,8 +1,10 @@
-﻿namespace Payment.Api.Validators
+﻿using System.Text.RegularExpressions;
+
+namespace Payment.Api.Validators
 {
     public class CardNumberValidator : Validator<string>
     {
-        public CardNumberValidator(string cardOwnerInformation) : base(cardOwnerInformation)
+        public CardNumberValidator(string cardNumber) : base(cardNumber)
         {
 
         }
@@ -15,14 +17,10 @@
                 return new ValidatorResult("Card number not be null");
             }
 
-
-            return new ValidatorResult(true);
-
-
-
-            //return Regex.IsMatch(arg, "^[0-9]{16}$")
-            //    ? new ValidatorResult(true)
-            //    : new ValidatorResult("Card owner information is invalid");
+            
+            return Regex.IsMatch(arg, "^[0-9]{15,16}$")
+                ? new ValidatorResult(true)
+                : new ValidatorResult("Card owner information is invalid");
         }
     }
 }

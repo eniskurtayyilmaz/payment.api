@@ -15,6 +15,7 @@ namespace Payment.IntegrationTests.Definitions
         private readonly ScenarioContext _scenarioContext;
         private ValidatorFactory _validatorFactory;
         private string _exp;
+        private string _cardnumber;
 
 
         public ExpirationDateDefinitions(ScenarioContext scenarioContext)
@@ -28,6 +29,27 @@ namespace Payment.IntegrationTests.Definitions
             _validatorFactory = new ValidatorFactory("");
             _exp = exp;
         }
+
+        [Given(@"the credit card is (.*)")]
+        public void GivenTheCreditCardIsCardnumber(string cardnumber)
+        {
+            _cardnumber = cardnumber;
+        }
+
+        [When(@"I set expiration date and credit card validations, getting validators")]
+        public void WhenISetExpirationDateAndCreditCardValidationsGettingValidators()
+        {
+            _validatorFactory.SetValidators(new List<IValidator>()
+            {
+                new ExpireDateValidator(_exp),
+                new CardNumberValidator(_cardnumber)
+            });
+
+            var validators = _validatorFactory.GetValidators(null);
+            _scenarioContext["Result"] = validators;
+        }
+
+
 
         [When(@"I set expiration date validations, getting validators")]
         public void WhenISetValidationsGettingValidators()
@@ -43,14 +65,13 @@ namespace Payment.IntegrationTests.Definitions
 
 
         [Then(@"Expiration date must invalid")]
-        public void ThenCVCMustInvalid()
+        public void ThenExpirationDateMustInvalid()
         {
 
             var validators = _scenarioContext["Result"] as IList<IValidator>;
             validators.Should().NotBeNull();
-            validators.Count.Should().Be(1);
 
-            var validator = validators.First();
+            var validator = validators.First(x => x.GetType() == typeof(ExpireDateValidator));
             validator.Should().NotBeNull();
             validator.Should().BeAssignableTo<ExpireDateValidator>();
             validator.Validate().Should().NotBeNull();

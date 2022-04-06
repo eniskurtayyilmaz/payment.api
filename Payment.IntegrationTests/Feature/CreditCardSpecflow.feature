@@ -3,17 +3,23 @@ Feature: CreditCardSpecflow
 
 @Done
 Scenario: Verify that wrong credit card number not accepted
-	Given the credit card number is <cvc>
+	Given the credit card number is <cardnumber>
 	When I set credit card number validations, getting validators
-	Then credit card number must invalid
+	Then the credit card number must invalid
 
 Examples:
-	| cvc    |
-	| 123456 |
-	| 12     |
-	|        |
-	| abc    |
-	| 1a2    |
+	| cardnumber               |
+	| 5000-1234-5678-9001-0000 |
+	| 5000 1234 5678 9001 0000 |
+	| 5000-1234-5678-9001      |
+	| 5000 1234 5678 9001      |
+	| 123456                   |
+	| 12                       |
+	|                          |
+	| abc                      |
+	| 1a2                      |
+	| 40128888888818         |
+	| 52042452500014282         |
 
 @Done
 Scenario: Verify that wrong CVC not accepted
@@ -66,6 +72,22 @@ Examples:
 
 
 Scenario: Verify that expired credit card doesn't accepted
+	Given the expiration date is <exp>
+	And the credit card is <cardnumber>
+	When I set expiration date and credit card validations, getting validators
+	Then Expiration date must invalid
+	
+Examples:
+	| exp    | cardnumber       |
+	| 123456 | 4012888888881881 |
+	| 12/21  | 5204245250001488 |
+	| 12/20  | 374251018720018  |
+	| 01/22  | 4012888888881881 |
+	| 12     | 5204245250001488 |
+	|        | 374251018720018  |
+	| abc    | 4012888888881881 |
+	| 1a2    | 5204245250001488 |
+	| 122021 | 374251018720018  |
 
 Scenario: Verify that unknown credit card doesn't accepted
 
