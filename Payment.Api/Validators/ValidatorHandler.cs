@@ -4,21 +4,12 @@ using Payment.Api.Models;
 
 namespace Payment.Api.Validators
 {
-
-
-    public enum CreditCardType
-    {
-        MasterCard,
-        Visa,
-        Amex
-    }
-
-    public class ValidatorFactory : Validator<PaymentLinkPayByCreditCardRequestDTO>
+    public class ValidatorHandler : Validator<PaymentLinkPayByCreditCardRequestDTO>
     {
         private readonly PaymentLinkPayByCreditCardRequestDTO _model;
 
         private IList<IValidator> _validators;
-        public ValidatorFactory(PaymentLinkPayByCreditCardRequestDTO model) : base(model)
+        public ValidatorHandler(PaymentLinkPayByCreditCardRequestDTO model) : base(model)
         {
             _model = model;
         }

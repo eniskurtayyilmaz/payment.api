@@ -14,7 +14,7 @@ namespace Payment.IntegrationTests.Definitions
     public class CreditCardNumberDefinitions
     {
         private readonly ScenarioContext _scenarioContext;
-        private ValidatorFactory _validatorFactory;
+        private ValidatorHandler _validatorFactory;
         private string _cardnumber;
 
 
@@ -32,7 +32,7 @@ namespace Payment.IntegrationTests.Definitions
             {
                 CreditCardNumber = cardnumber
             };
-            _validatorFactory = new ValidatorFactory(requestModel);
+            _validatorFactory = new ValidatorHandler(requestModel);
             _cardnumber = cardnumber;
         }
 

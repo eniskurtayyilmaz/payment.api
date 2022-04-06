@@ -14,7 +14,7 @@ namespace Payment.IntegrationTests.Definitions
     public class CVCDefinitions
     {
         private readonly ScenarioContext _scenarioContext;
-        private ValidatorFactory _validatorFactory;
+        private ValidatorHandler _validatorFactory;
         private string _cvc;
 
 
@@ -31,7 +31,7 @@ namespace Payment.IntegrationTests.Definitions
             {
                 CVC = cvc
             };
-            _validatorFactory = new ValidatorFactory(requestModel);
+            _validatorFactory = new ValidatorHandler(requestModel);
             _cvc = cvc;
         }
 

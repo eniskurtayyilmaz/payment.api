@@ -14,7 +14,7 @@ namespace Payment.IntegrationTests.Definitions
     public class ExpirationDateDefinitions
     {
         private readonly ScenarioContext _scenarioContext;
-        private ValidatorFactory _validatorFactory;
+        private ValidatorHandler _validatorFactory;
         private string _exp;
         private string _cardnumber;
 
@@ -31,7 +31,7 @@ namespace Payment.IntegrationTests.Definitions
             {
                 IssueDate = _exp
             };
-            _validatorFactory = new ValidatorFactory(requestModel);
+            _validatorFactory = new ValidatorHandler(requestModel);
             _exp = exp;
         }
 
@@ -47,7 +47,8 @@ namespace Payment.IntegrationTests.Definitions
             _validatorFactory.SetValidators(new List<IValidator>()
             {
                 new ExpireDateValidator(_exp),
-                new CardNumberValidator(_cardnumber)
+                new CardNumberValidator(_cardnumber),
+                new CreditCardTypeFactoryBuilder(_cardnumber).SetDefaultValidators()
             });
 
         }

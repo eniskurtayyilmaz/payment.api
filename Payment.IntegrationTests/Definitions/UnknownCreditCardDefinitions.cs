@@ -10,49 +10,50 @@ using TechTalk.SpecFlow;
 
 namespace Payment.IntegrationTests.Definitions
 {
+    
     [Binding]
-    public class CardOwnerInformationDefinitions
+    public class UnknownCreditCardDefinitions
     {
         private readonly ScenarioContext _scenarioContext;
         private ValidatorHandler _validatorFactory;
-        private string _cardInformation;
+        private string _cardnumber;
 
 
-        public CardOwnerInformationDefinitions(ScenarioContext scenarioContext)
+        public UnknownCreditCardDefinitions(ScenarioContext scenarioContext)
         {
             _scenarioContext = scenarioContext;
         }
 
-
-        [Given(@"the card owner information is (.*)")]
-        public void GivenTheCardOwnerInformationIs(string cardowner)
+        [Given(@"the unknown credit card is (.*)")]
+        public void GivenTheUnkownCreditCardIs(string creditcard)
         {
             var requestModel = new PaymentLinkPayByCreditCardRequestDTO
             {
-                CardOwner = cardowner
+               CreditCardNumber = creditcard
             };
             _validatorFactory = new ValidatorHandler(requestModel);
-            _cardInformation = cardowner;
+            _cardnumber = creditcard;
         }
 
-        [When(@"I set card owner information validations, getting validators")]
-        public void WhenISetValidationsGettingValidators()
+        [When(@"I set known credit card validations, getting validators")]
+        public void WhenISetKnownCreditCardValidationsGettingValidators()
         {
             _validatorFactory.SetValidators(new List<IValidator>()
             {
-                new CardOwnerInformationValidator(_cardInformation)
+                new CreditCardTypeFactoryBuilder(_cardnumber).SetDefaultValidators()
             });
+
         }
 
 
-        [Then(@"card owner information must invalid")]
-        public void ThenCardOwnerInformationMustInvalid()
+
+        [Then(@"the unknown credit card must invalid")]
+        public void ThenExpirationDateMustInvalid()
         {
             var validator = _validatorFactory.Validate();
             validator.Should().NotBeNull();
             validator.IsValid.Should().BeFalse();
-            validator.Error.Should().Contain("Card owner");
+            validator.Error.Should().Contain("American Express, Visa, or Mastercard accepted");
         }
-        
     }
 }

@@ -91,5 +91,27 @@ Examples:
 
 
 Scenario: Verify that unknown credit card doesn't accepted
+	Given the unknown credit card is <creditcard>
+	When I set known credit card validations, getting validators
+	Then the unknown credit card must invalid
+
+Examples:
+	| cardnumber       |
+	| 4012888888881881 |
+	| 5204245250001488 |
+	| 374251018720018  |
+	| 4012888888881881 |
+	| 5204245250001488 |
+	| 374251018720018  |
+	| 4012888888881881 |
+	| 5204245250001488 |
+	| 374251018720018  |
+
 
 Scenario: Verify that valid credit card
+	Given the valid credit card is <creditcard>
+	And the valid card owner <cardowner>
+	And the valid expiration date <exp>
+	And the valid CVC <cvc>
+	When I set known credit card validations and other validations
+	Then all of informatin must be valid

@@ -361,10 +361,20 @@ this.ScenarioInitialize(scenarioInfo);
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Verify that unknown credit card doesn\'t accepted")]
-        public virtual void VerifyThatUnknownCreditCardDoesntAccepted()
+        [NUnit.Framework.TestCaseAttribute("4012888888881881", null)]
+        [NUnit.Framework.TestCaseAttribute("5204245250001488", null)]
+        [NUnit.Framework.TestCaseAttribute("374251018720018", null)]
+        [NUnit.Framework.TestCaseAttribute("4012888888881881", null)]
+        [NUnit.Framework.TestCaseAttribute("5204245250001488", null)]
+        [NUnit.Framework.TestCaseAttribute("374251018720018", null)]
+        [NUnit.Framework.TestCaseAttribute("4012888888881881", null)]
+        [NUnit.Framework.TestCaseAttribute("5204245250001488", null)]
+        [NUnit.Framework.TestCaseAttribute("374251018720018", null)]
+        public virtual void VerifyThatUnknownCreditCardDoesntAccepted(string cardnumber, string[] exampleTags)
         {
-            string[] tagsOfScenario = ((string[])(null));
+            string[] tagsOfScenario = exampleTags;
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            argumentsOfScenario.Add("cardnumber", cardnumber);
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Verify that unknown credit card doesn\'t accepted", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
 #line 93
 this.ScenarioInitialize(scenarioInfo);
@@ -386,6 +396,15 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
+#line 94
+ testRunner.Given("the unknown credit card is <creditcard>", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 95
+ testRunner.When("I set known credit card validations, getting validators", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 96
+ testRunner.Then("the unknown credit card must invalid", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
             }
             this.ScenarioCleanup();
         }
@@ -397,7 +416,7 @@ this.ScenarioInitialize(scenarioInfo);
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Verify that valid credit card", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 95
+#line 111
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
