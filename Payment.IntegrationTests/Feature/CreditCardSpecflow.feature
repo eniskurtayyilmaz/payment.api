@@ -18,8 +18,8 @@ Examples:
 	|                          |
 	| abc                      |
 	| 1a2                      |
-	| 40128888888818         |
-	| 52042452500014282         |
+	| 40128888888818           |
+	| 52042452500014282        |
 
 @Done
 Scenario: Verify that wrong CVC not accepted
@@ -70,7 +70,7 @@ Examples:
 	| ab        |
 	| 1a2       |
 
-
+@Done
 Scenario: Verify that expired credit card doesn't accepted
 	Given the expiration date is <exp>
 	And the credit card is <cardnumber>
@@ -88,6 +88,7 @@ Examples:
 	| abc    | 4012888888881881 |
 	| 1a2    | 5204245250001488 |
 	| 122021 | 374251018720018  |
+
 
 Scenario: Verify that unknown credit card doesn't accepted
 

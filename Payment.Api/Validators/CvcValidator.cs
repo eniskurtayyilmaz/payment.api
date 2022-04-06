@@ -1,4 +1,5 @@
 ﻿using System.Text.RegularExpressions;
+using Payment.Api.Models;
 
 namespace Payment.Api.Validators
 {
@@ -13,7 +14,7 @@ namespace Payment.Api.Validators
             var arg = this.ObjectValue;
             if (string.IsNullOrEmpty(arg) || string.IsNullOrWhiteSpace(arg))
             {
-                return new ValidatorResult("Cvc not be null");
+                return new ValidatorResult("CVC not be null");
             }
 
             return Regex.IsMatch(arg, "^[0-9]{3,4}$")

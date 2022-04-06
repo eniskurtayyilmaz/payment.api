@@ -1,4 +1,5 @@
 ﻿using System;
+using Payment.Api.Models;
 using Payment.Api.Utils;
 
 namespace Payment.Api.Validators

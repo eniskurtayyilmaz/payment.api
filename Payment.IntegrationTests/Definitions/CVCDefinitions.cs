@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Payment.Api.Models;
 using Payment.Api.Validators;
 using TechTalk.SpecFlow;
 
@@ -26,7 +27,11 @@ namespace Payment.IntegrationTests.Definitions
         [Given(@"the CVC is (.*)")]
         public void GivenTheCVCIs(string cvc)
         {
-            _validatorFactory = new ValidatorFactory("");
+            var requestModel = new PaymentLinkPayByCreditCardRequestDTO
+            {
+                CVC = cvc
+            };
+            _validatorFactory = new ValidatorFactory(requestModel);
             _cvc = cvc;
         }
 
@@ -37,9 +42,7 @@ namespace Payment.IntegrationTests.Definitions
             {
                 new CvcValidator(_cvc)
             });
-
-            var validators = _validatorFactory.GetValidators(null);
-            _scenarioContext["Result"] = validators;
+            
         }
 
 
@@ -47,15 +50,10 @@ namespace Payment.IntegrationTests.Definitions
         public void ThenCVCMustInvalid()
         {
 
-            var validators = _scenarioContext["Result"] as IList<IValidator>;
-            validators.Should().NotBeNull();
-            validators.Count.Should().Be(1);
-
-            var validator = validators.First();
+            var validator = _validatorFactory.Validate();
             validator.Should().NotBeNull();
-            validator.Should().BeAssignableTo<CvcValidator>();
-            validator.Validate().Should().NotBeNull();
-            validator.Validate().IsValid.Should().BeFalse();
+            validator.IsValid.Should().BeFalse();
+            validator.Error.Should().Contain("CVC");
         }
         
     }

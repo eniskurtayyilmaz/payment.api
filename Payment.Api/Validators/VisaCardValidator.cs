@@ -1,4 +1,5 @@
 ﻿using System.Text.RegularExpressions;
+using Payment.Api.Models;
 
 namespace Payment.Api.Validators
 {

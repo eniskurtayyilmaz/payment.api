@@ -1,4 +1,5 @@
 ﻿using System;
+using Payment.Api.Models;
 
 namespace Payment.Api.Validators
 {
@@ -16,6 +17,6 @@ namespace Payment.Api.Validators
             this.ObjectValue = objectValue;
         }
         
-        public abstract ValidatorResult Validate();
+        public virtual ValidatorResult Validate() => new(true);
     }
 }

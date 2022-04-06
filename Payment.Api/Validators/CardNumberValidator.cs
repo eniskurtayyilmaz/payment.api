@@ -1,4 +1,5 @@
 ﻿using System.Text.RegularExpressions;
+using Payment.Api.Models;
 
 namespace Payment.Api.Validators
 {
@@ -20,7 +21,7 @@ namespace Payment.Api.Validators
             
             return Regex.IsMatch(arg, "^[0-9]{15,16}$")
                 ? new ValidatorResult(true)
-                : new ValidatorResult("Card owner information is invalid");
+                : new ValidatorResult("Card number is invalid");
         }
     }
 }

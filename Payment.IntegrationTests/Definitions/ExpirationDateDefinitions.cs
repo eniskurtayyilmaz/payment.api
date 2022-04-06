@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Payment.Api.Models;
 using Payment.Api.Validators;
 using TechTalk.SpecFlow;
 
@@ -26,7 +27,11 @@ namespace Payment.IntegrationTests.Definitions
         [Given(@"the expiration date is (.*)")]
         public void GivenTheExpirationDateIs(string exp)
         {
-            _validatorFactory = new ValidatorFactory("");
+            var requestModel = new PaymentLinkPayByCreditCardRequestDTO
+            {
+                IssueDate = _exp
+            };
+            _validatorFactory = new ValidatorFactory(requestModel);
             _exp = exp;
         }
 
@@ -45,8 +50,6 @@ namespace Payment.IntegrationTests.Definitions
                 new CardNumberValidator(_cardnumber)
             });
 
-            var validators = _validatorFactory.GetValidators(null);
-            _scenarioContext["Result"] = validators;
         }
 
 
@@ -59,23 +62,17 @@ namespace Payment.IntegrationTests.Definitions
                 new ExpireDateValidator(_exp)
             });
 
-            var validators = _validatorFactory.GetValidators(null);
-            _scenarioContext["Result"] = validators;
+         
         }
 
 
         [Then(@"Expiration date must invalid")]
         public void ThenExpirationDateMustInvalid()
         {
-
-            var validators = _scenarioContext["Result"] as IList<IValidator>;
-            validators.Should().NotBeNull();
-
-            var validator = validators.First(x => x.GetType() == typeof(ExpireDateValidator));
+            var validator = _validatorFactory.Validate();
             validator.Should().NotBeNull();
-            validator.Should().BeAssignableTo<ExpireDateValidator>();
-            validator.Validate().Should().NotBeNull();
-            validator.Validate().IsValid.Should().BeFalse();
+            validator.IsValid.Should().BeFalse();
+            validator.Error.Should().Contain("ExpireDate");
         }
     }
 }

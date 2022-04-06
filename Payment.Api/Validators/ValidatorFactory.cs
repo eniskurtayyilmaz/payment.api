@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Payment.Api.Models;
 
 namespace Payment.Api.Validators
 {
@@ -12,59 +13,37 @@ namespace Payment.Api.Validators
         Amex
     }
 
-    public class ValidatorFactory
+    public class ValidatorFactory : Validator<PaymentLinkPayByCreditCardRequestDTO>
     {
-        private readonly string _creditCardNumber;
+        private readonly PaymentLinkPayByCreditCardRequestDTO _model;
 
         private IList<IValidator> _validators;
-        public ValidatorFactory(string creditCardNumber)
+        public ValidatorFactory(PaymentLinkPayByCreditCardRequestDTO model) : base(model)
         {
-            _creditCardNumber = creditCardNumber;
+            _model = model;
         }
 
-        public IList<IValidator> GetValidators(CreditCardType? validationType)
+        public IList<IValidator> GetValidators()
         {
-            if (_validators == null)
-            {
-                _validators = new List<IValidator>();
-            }
-
-            if (!validationType.HasValue) return _validators;
-
-            switch (validationType)
-            {
-                case CreditCardType.MasterCard:
-                    _validators.Add(new MasterCreditCardValidator(_creditCardNumber));
-                    break;
-
-                case CreditCardType.Visa:
-                    _validators.Add(new VisaCardValidator(_creditCardNumber));
-                    break;
-
-                case CreditCardType.Amex:
-                    _validators.Add(new AmericanExpressCardValidator(_creditCardNumber));
-                    break;
-
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-
             return _validators;
         }
 
         public void SetValidators(IList<IValidator> validators)
         {
             this._validators = validators;
+        }
 
-            /* 
-            this._validators = new List<IValidator>()
+        public override ValidatorResult Validate()
+        {
+            foreach (var validator in _validators)
             {
-                new ExpireDateValidator(this._expireDate),
-                new CvcValidator(this._cvc),
-                new CardOwnerInformationValidator(this._cardOwnerInformation),
-                new CardNumberValidator(this._creditCardNumber)
-            };
-            */
+                var result = validator.Validate();
+                if (!result.IsValid)
+                {
+                    return result;
+                }
+            }
+            return base.Validate();
         }
     }
 }

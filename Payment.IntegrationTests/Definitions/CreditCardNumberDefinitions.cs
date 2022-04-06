@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Payment.Api.Models;
 using Payment.Api.Validators;
 using TechTalk.SpecFlow;
 
@@ -27,7 +28,11 @@ namespace Payment.IntegrationTests.Definitions
         [Given(@"the credit card number is (.*)")]
         public void GivenTheCreditCardNumberIs(string cardnumber)
         {
-            _validatorFactory = new ValidatorFactory("");
+            var requestModel = new PaymentLinkPayByCreditCardRequestDTO
+            {
+                CreditCardNumber = cardnumber
+            };
+            _validatorFactory = new ValidatorFactory(requestModel);
             _cardnumber = cardnumber;
         }
 
@@ -39,24 +44,16 @@ namespace Payment.IntegrationTests.Definitions
                 new CardNumberValidator(_cardnumber)
             });
 
-            var validators = _validatorFactory.GetValidators(null);
-            _scenarioContext["Result"] = validators;
         }
 
 
         [Then(@"the credit card number must invalid")]
         public void ThenCreditCardNumberMustInvalid()
         {
-
-            var validators = _scenarioContext["Result"] as IList<IValidator>;
-            validators.Should().NotBeNull();
-            validators.Count.Should().Be(1);
-
-            var validator = validators.First();
+            var validator = _validatorFactory.Validate();
             validator.Should().NotBeNull();
-            validator.Should().BeAssignableTo<CardNumberValidator>();
-            validator.Validate().Should().NotBeNull();
-            validator.Validate().IsValid.Should().BeFalse();
+            validator.IsValid.Should().BeFalse();
+            validator.Error.Should().Contain("Card number");
         }
         
     }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Payment.Api.Models;
 using Payment.Api.Validators;
 using TechTalk.SpecFlow;
 
@@ -26,7 +27,11 @@ namespace Payment.IntegrationTests.Definitions
         [Given(@"the card owner information is (.*)")]
         public void GivenTheCardOwnerInformationIs(string cardowner)
         {
-            _validatorFactory = new ValidatorFactory("");
+            var requestModel = new PaymentLinkPayByCreditCardRequestDTO
+            {
+                CardOwner = cardowner
+            };
+            _validatorFactory = new ValidatorFactory(requestModel);
             _cardInformation = cardowner;
         }
 
@@ -38,24 +43,17 @@ namespace Payment.IntegrationTests.Definitions
                 new CardOwnerInformationValidator(_cardInformation)
             });
 
-            var validators = _validatorFactory.GetValidators(null);
-            _scenarioContext["Result"] = validators;
+  
         }
 
 
         [Then(@"card owner information must invalid")]
         public void ThenCardOwnerInformationMustInvalid()
         {
-
-            var validators = _scenarioContext["Result"] as IList<IValidator>;
-            validators.Should().NotBeNull();
-            validators.Count.Should().Be(1);
-
-            var validator = validators.First();
+            var validator = _validatorFactory.Validate();
             validator.Should().NotBeNull();
-            validator.Should().BeAssignableTo<CardOwnerInformationValidator>();
-            validator.Validate().Should().NotBeNull();
-            validator.Validate().IsValid.Should().BeFalse();
+            validator.IsValid.Should().BeFalse();
+            validator.Error.Should().Contain("Card owner");
         }
         
     }
