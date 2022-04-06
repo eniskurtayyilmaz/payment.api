@@ -1,15 +1,19 @@
 Feature: CreditCardSpecflow
 
+
+@Done
 Scenario: Verify that wrong credit card number not accepted
-	Given the card owner is <cardOwner>
-	When I request with card number
-	Then the result must invalid
+	Given the credit card number is <cvc>
+	When I set credit card number validations, getting validators
+	Then credit card number must invalid
 
 Examples:
-	| cardOwner |
-	| ek        |
-	| e         |
-	|           |
+	| cvc    |
+	| 123456 |
+	| 12     |
+	|        |
+	| abc    |
+	| 1a2    |
 
 @Done
 Scenario: Verify that wrong CVC not accepted
@@ -25,7 +29,7 @@ Examples:
 	| abc    |
 	| 1a2    |
 
-@Done	
+@Done
 Scenario: Verify that wrong expiration date not accepted
 	Given the expiration date is <exp>
 	When I set expiration date validations, getting validators
@@ -41,11 +45,25 @@ Examples:
 	|        |
 	| abc    |
 	| 1a2    |
-	| 1a2    |
+	| 122021 |
 
+@Done
 Scenario: Verify that wrong card owner information not accepted
+	Given the card owner information is <cardowner>
+	When I set card owner information validations, getting validators
+	Then card owner information must invalid
 
-Scenario: Verify that card owner field doesnt have card number
+Examples:
+	| cardowner |
+	| E         |
+	| E_        |
+	| 1220      |
+	| 022       |
+	| 12        |
+	|           |
+	| ab        |
+	| 1a2       |
+
 
 Scenario: Verify that expired credit card doesn't accepted
 

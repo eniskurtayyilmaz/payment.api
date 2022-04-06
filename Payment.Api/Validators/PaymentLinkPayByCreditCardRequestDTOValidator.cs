@@ -20,7 +20,7 @@ namespace Payment.Api.Validators
                 .NotNull().WithMessage(ErrorMessagesResources.CreditCardNumberInvalid)
                 .NotEmpty().WithMessage(ErrorMessagesResources.CreditCardNumberInvalid)
                 .CreditCard().WithMessage(ErrorMessagesResources.CreditCardNumberInvalid)
-                .Matches(@"^(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|3[47][0-9]{13})$") //TODO: Factory
+                .Matches(@"^(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|3[47][0-9]{13})$")
                 .WithMessage(ErrorMessagesResources.CreditCardTypeInvalid);
 
             RuleFor(x => x.IssueDate)
@@ -32,7 +32,7 @@ namespace Payment.Api.Validators
             RuleFor(x => x.CVC)
                 .NotNull().WithMessage(ErrorMessagesResources.CVCInvalid)
                 .NotEmpty().WithMessage(ErrorMessagesResources.CVCInvalid)
-                .Matches("^[0-9]{3,4}$").WithMessage(ErrorMessagesResources.CVCInvalid); //TODO: IValidation 
+                .Matches("^[0-9]{3,4}$").WithMessage(ErrorMessagesResources.CVCInvalid);
         }
         
         private bool ValidateIssueDate(string arg)
