@@ -23,8 +23,8 @@ namespace Payment.Api.Controllers
         public async Task<IActionResult> PayByCreditCard([FromBody] PaymentLinkPayByCreditCardRequestDTO model)
         {
 
-            var validatorFactory = new ValidatorHandler(model);
-            validatorFactory.SetValidators(new List<IValidator>()
+            var validatorHandler = new ValidatorHandler(model);
+            validatorHandler.SetValidators(new List<IValidator>()
             {
                 new CardOwnerInformationValidator(model.CardOwner),
                 new CvcValidator(model.CVC),
@@ -33,7 +33,7 @@ namespace Payment.Api.Controllers
                 new CreditCardTypeFactoryBuilder(model.CreditCardNumber).SetDefaultValidators()
             });
 
-            var resultOfValidation = validatorFactory.Validate();
+            var resultOfValidation = validatorHandler.Validate();
             if (!resultOfValidation.IsValid)
             {
                 return BadRequest(new { Error = resultOfValidation.Error });
