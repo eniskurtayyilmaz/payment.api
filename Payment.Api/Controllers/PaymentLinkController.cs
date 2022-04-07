@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Payment.Api.Models;
@@ -22,23 +23,13 @@ namespace Payment.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> PayByCreditCard([FromBody] PaymentLinkPayByCreditCardRequestDTO model)
         {
-
             var validatorHandler = new ValidatorHandler(model);
-            validatorHandler.SetValidators(new List<IValidator>()
-            {
-                new CardOwnerInformationValidator(model.CardOwner),
-                new CvcValidator(model.CVC),
-                new ExpireDateValidator(model.IssueDate),
-                new CardNumberValidator(model.CreditCardNumber),
-                new CreditCardTypeFactoryBuilder(model.CreditCardNumber).SetDefaultValidators()
-            });
 
-            var resultOfValidation = validatorHandler.Validate();
-            if (!resultOfValidation.IsValid)
+            var resultOfErrorValidatorResults = validatorHandler.Validate();
+            if (resultOfErrorValidatorResults != null)
             {
-                return BadRequest(new { Error = resultOfValidation.Error });
+                return BadRequest(resultOfErrorValidatorResults);
             }
-
 
             return Ok(await _paymentService.TakePayment(model));
         }

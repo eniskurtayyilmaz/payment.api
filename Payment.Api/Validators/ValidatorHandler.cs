@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.InteropServices;
 using Payment.Api.Models;
+using Payment.Api.Utils;
 
 namespace Payment.Api.Validators
 {
-    public class ValidatorHandler : Validator<PaymentLinkPayByCreditCardRequestDTO>
+    public class ValidatorHandler : ValidatorResult<PaymentLinkPayByCreditCardRequestDTO>
     {
         private readonly PaymentLinkPayByCreditCardRequestDTO _model;
 
@@ -12,11 +15,19 @@ namespace Payment.Api.Validators
         public ValidatorHandler(PaymentLinkPayByCreditCardRequestDTO model) : base(model)
         {
             _model = model;
+            this.SetValidators();
         }
 
-        public IList<IValidator> GetValidators()
+        public void SetValidators()
         {
-            return _validators;
+            this.SetValidators(new List<IValidator>()
+            {
+                new CardOwnerInformationValidator(_model.CardOwner),
+                   new CvcValidator(_model.CVC),
+                   new ExpireDateValidator(_model.IssueDate),
+                   new CardNumberValidator(_model.CreditCardNumber),
+                   new CreditCardTypeFactoryBuilder(_model.CreditCardNumber).SetDefaultValidators()
+            });
         }
 
         public void SetValidators(IList<IValidator> validators)
@@ -24,17 +35,10 @@ namespace Payment.Api.Validators
             this._validators = validators;
         }
 
-        public override ValidatorResult Validate()
+
+        public override ValidateErrorResult Validate()
         {
-            foreach (var validator in _validators)
-            {
-                var result = validator.Validate();
-                if (!result.IsValid)
-                {
-                    return result;
-                }
-            }
-            return base.Validate();
+            return new ValidateUtils().GetValidateErrorResult(this._validators);
         }
     }
 }

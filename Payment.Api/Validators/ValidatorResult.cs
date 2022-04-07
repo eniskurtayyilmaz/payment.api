@@ -1,19 +1,24 @@
-﻿namespace Payment.Api.Validators
+﻿using System;
+using System.Collections.Generic;
+using Payment.Api.Models;
+
+namespace Payment.Api.Validators
 {
-    public class ValidatorResult
+    
+    public interface IValidatorErrorResult
     {
-        public bool IsValid { get; set; }
-        public string Error { get; set; }
+        ValidateErrorResult Validate();
+    }
 
-        public ValidatorResult(string error)
+    public abstract class ValidatorResult<TModel> : IValidatorErrorResult
+    {
+        public TModel ObjectValue { get; protected set; }
+
+        public ValidatorResult(TModel objectValue)
         {
-            Error = error;
+            this.ObjectValue = objectValue;
         }
 
-        public ValidatorResult(bool isValid, string error = "")
-        {
-            IsValid = isValid;
-            Error = error;
-        }
+        public abstract ValidateErrorResult Validate();
     }
 }

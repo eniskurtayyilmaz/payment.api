@@ -1,5 +1,7 @@
 ﻿using System.Text.RegularExpressions;
+using Payment.Api.Constants;
 using Payment.Api.Models;
+using Payment.Api.Resources;
 
 namespace Payment.Api.Validators
 {
@@ -15,13 +17,13 @@ namespace Payment.Api.Validators
             var arg = this.ObjectValue;
             if (string.IsNullOrEmpty(arg) || string.IsNullOrWhiteSpace(arg))
             {
-                return new ValidatorResult("Card number not be null");
+                return new ValidatorResult(PropertyConstants.CreditCard, ErrorMessagesResources.CardNumberCanNotBeNullOrEmpty);
             }
 
-            
+
             return Regex.IsMatch(arg, "^[0-9]{15,16}$")
                 ? new ValidatorResult(true)
-                : new ValidatorResult("Card number is invalid");
+                : new ValidatorResult(PropertyConstants.CreditCard, ErrorMessagesResources.CardNumberMustBeNumericWith15_16Length);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Text.RegularExpressions;
+using Payment.Api.Constants;
 using Payment.Api.Models;
 
 namespace Payment.Api.Validators
@@ -14,12 +15,12 @@ namespace Payment.Api.Validators
             var arg = this.ObjectValue;
             if (string.IsNullOrEmpty(arg) || string.IsNullOrWhiteSpace(arg))
             {
-                return new ValidatorResult("CVC not be null");
+                return new ValidatorResult(PropertyConstants.CVC, "CVC not be null");
             }
 
             return Regex.IsMatch(arg, "^[0-9]{3,4}$")
                 ? new ValidatorResult(true)
-                : new ValidatorResult("CVC is invalid");
+                : new ValidatorResult(PropertyConstants.CVC, "CVC is invalid");
         }
     }
 }

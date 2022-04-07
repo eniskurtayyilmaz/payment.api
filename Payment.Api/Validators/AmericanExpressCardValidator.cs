@@ -1,4 +1,5 @@
 ﻿using System.Text.RegularExpressions;
+using Payment.Api.Constants;
 using Payment.Api.Models;
 
 namespace Payment.Api.Validators
@@ -13,9 +14,14 @@ namespace Payment.Api.Validators
         public override ValidatorResult Validate()
         {
             var arg = this.ObjectValue;
+            if (string.IsNullOrEmpty(arg) || string.IsNullOrWhiteSpace(arg))
+            {
+                return new ValidatorResult(PropertyConstants.CreditCard, "The credit card type isn't Americanexpress");
+            }
+
             return Regex.IsMatch(arg, "^3[47][0-9]{13}$")
                 ? new ValidatorResult(true)
-                : new ValidatorResult("The credit card type isn't Americanexpress");
+                : new ValidatorResult(PropertyConstants.CreditCard, "The credit card type isn't Americanexpress");
         }
     }
 }

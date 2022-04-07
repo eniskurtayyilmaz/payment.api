@@ -38,7 +38,7 @@
     <Compile Update="Resources\ErrorMessagesResources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>ErrorMessages.resx</DependentUpon>
+      <DependentUpon>ErrorMessagesResources.resx</DependentUpon>
     </Compile>
   </ItemGroup>
 

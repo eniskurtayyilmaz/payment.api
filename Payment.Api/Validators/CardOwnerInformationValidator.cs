@@ -1,4 +1,5 @@
 ﻿using System.Text.RegularExpressions;
+using Payment.Api.Constants;
 using Payment.Api.Models;
 
 namespace Payment.Api.Validators
@@ -15,7 +16,7 @@ namespace Payment.Api.Validators
             var arg = this.ObjectValue;
             if (string.IsNullOrEmpty(arg) || string.IsNullOrWhiteSpace(arg))
             {
-                return new ValidatorResult("Card owner information not be null");
+                return new ValidatorResult(PropertyConstants.CardOwner,"Card owner information not be null");
             }
 
 
@@ -23,7 +24,7 @@ namespace Payment.Api.Validators
 
             return Regex.IsMatch(arg, "^((?:[A-Za-z]+ ?){3})$")
                 ? new ValidatorResult(true)
-                : new ValidatorResult("Card owner information is invalid");
+                : new ValidatorResult(PropertyConstants.CardOwner, "Card owner information is invalid");
         }
     }
 }
