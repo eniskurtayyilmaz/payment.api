@@ -1,22 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Payment.Api.Constants;
 using Payment.Api.Models;
+using Payment.Api.Resources;
 using Payment.Api.Validators;
+using Payment.IntegrationTests.Common;
 using TechTalk.SpecFlow;
 
 namespace Payment.IntegrationTests.Definitions
 {
     [Binding]
-    public class CVCDefinitions
+    public class CVCDefinitions : TestInitialize
     {
         private readonly ScenarioContext _scenarioContext;
-        private ValidatorHandler _validatorFactory;
         private string _cvc;
-
 
         public CVCDefinitions(ScenarioContext scenarioContext)
         {
@@ -24,37 +27,68 @@ namespace Payment.IntegrationTests.Definitions
         }
 
 
-        [Given(@"the CVC is (.*)")]
-        public void GivenTheCVCIs(string cvc)
+        [Given(@"the CVC is (.*) from Examples")]
+        public void GivenTheCVCNumberIs(string cvc)
         {
-            var requestModel = new PaymentLinkPayByCreditCardRequestDTO
-            {
-                CVC = cvc
-            };
-            _validatorFactory = new ValidatorHandler(requestModel);
             _cvc = cvc;
         }
 
-        [When(@"I set CVC validations, getting validators")]
-        public void WhenISetValidationsGettingValidators()
+        [Given(@"the CVC is empty")]
+        public void GivenTheCVCNumberIsEmpty()
         {
-            _validatorFactory.SetValidators(new List<IValidator>()
-            {
-                new CvcValidator(_cvc)
-            });
-            
+            _cvc = string.Empty;
         }
 
+        [Given(@"the CVC is null")]
+        public void GivenTheCVCNumberIsNull()
+        {
+            _cvc = null;
+        }
 
-        [Then(@"CVC must invalid")]
-        public void ThenCVCMustInvalid()
+        [When(@"I call the API /api/paymentLink with CVC")]
+        public async Task WhenISetValidationsGettingValidators()
         {
 
-            var validator = _validatorFactory.Validate();
-            validator.Should().NotBeNull();
-            //validator.IsValid.Should().BeFalse();
-            //validator.Error.Should().Contain("CVC");
+            var response = await this.Client.PostAsync(Constant.PaymentLinkEndpoint, JsonData(
+                new PaymentLinkPayByCreditCardRequestDTO()
+                {
+                    CVC = _cvc
+                }));
+
+            var responseObj = await response.Content.ReadFromJsonAsync<ValidateErrorResult>();
+            _scenarioContext["object"] = responseObj;
+            _scenarioContext["responseCode"] = response.StatusCode;
         }
-        
+
+        [Then(@"I see in response that CVC must be numeric with 3-4 length")]
+        public void ThenCVCNumberMustNumeric()
+        {
+            var responseObj = _scenarioContext["object"] as ValidateErrorResult;
+            responseObj.Should().NotBeNull();
+            responseObj.Errors.Should().NotBeNull();
+            responseObj.Errors.First(x => x.Property == PropertyConstants.CVC)
+                .Errors
+                .Any(x => x == ErrorMessagesResources.CVCMustBeNumericWith3_4Length).Should().BeTrue();
+
+        }
+
+        [Then(@"I see in response that CVC can not be null or empty")]
+        public void ThenCVCNumberCanNotBeNullOrEmpty()
+        {
+            var responseObj = _scenarioContext["object"] as ValidateErrorResult;
+            responseObj.Should().NotBeNull();
+            responseObj.Errors.Should().NotBeNull();
+            responseObj.Errors.First(x => x.Property == PropertyConstants.CVC)
+                .Errors
+                .Any(x => x == ErrorMessagesResources.CVCCanNotBeNullOrEmpty).Should().BeTrue();
+        }
+
+        //[Then(@"I see response status code is BadRequest")]
+        //public void ThenISeeResponseStatusCodeIsBadRequest()
+        //{
+        //    var responseCode = (HttpStatusCode)_scenarioContext["responseCode"];
+        //    responseCode.Should().Be(HttpStatusCode.BadRequest);
+        //}
+
     }
 }

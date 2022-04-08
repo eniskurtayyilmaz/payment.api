@@ -106,11 +106,47 @@ namespace Payment.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to CVC can not be null or empty.
+        /// </summary>
+        public static string CVCCanNotBeNullOrEmpty {
+            get {
+                return ResourceManager.GetString("CVCCanNotBeNullOrEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to CVC information is invalid.
         /// </summary>
         public static string CVCInvalid {
             get {
                 return ResourceManager.GetString("CVCInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CVC must be numeric with 3-4 length.
+        /// </summary>
+        public static string CVCMustBeNumericWith3_4Length {
+            get {
+                return ResourceManager.GetString("CVCMustBeNumericWith3_4Length", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expiration Date can not be null or empty.
+        /// </summary>
+        public static string ExpirationDateCanNotBeNullOrEmpty {
+            get {
+                return ResourceManager.GetString("ExpirationDateCanNotBeNullOrEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expiration Date must be MM/YY format.
+        /// </summary>
+        public static string ExpirationDateMustBeMMYYFormat {
+            get {
+                return ResourceManager.GetString("ExpirationDateMustBeMMYYFormat", resourceCulture);
             }
         }
         

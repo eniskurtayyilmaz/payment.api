@@ -75,6 +75,7 @@ namespace Payment.IntegrationTests.Feature
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Verify that wrong credit card number not accepted")]
+        [NUnit.Framework.CategoryAttribute("done")]
         [NUnit.Framework.TestCaseAttribute("5000-1234-5678-9001-0000", null)]
         [NUnit.Framework.TestCaseAttribute("5000 1234 5678 9001 0000", null)]
         [NUnit.Framework.TestCaseAttribute("5000-1234-5678-9001", null)]
@@ -87,7 +88,13 @@ namespace Payment.IntegrationTests.Feature
         [NUnit.Framework.TestCaseAttribute("52042452500014282", null)]
         public virtual void VerifyThatWrongCreditCardNumberNotAccepted(string cardnumber, string[] exampleTags)
         {
-            string[] tagsOfScenario = exampleTags;
+            string[] @__tags = new string[] {
+                    "done"};
+            if ((exampleTags != null))
+            {
+                @__tags = System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Concat(@__tags, exampleTags));
+            }
+            string[] tagsOfScenario = @__tags;
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             argumentsOfScenario.Add("cardnumber", cardnumber);
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Verify that wrong credit card number not accepted", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
@@ -153,18 +160,24 @@ this.ScenarioInitialize(scenarioInfo);
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Verify that wrong CVC not accepted")]
+        [NUnit.Framework.CategoryAttribute("done")]
         [NUnit.Framework.TestCaseAttribute("123456", null)]
         [NUnit.Framework.TestCaseAttribute("12", null)]
-        [NUnit.Framework.TestCaseAttribute("", null)]
         [NUnit.Framework.TestCaseAttribute("abc", null)]
         [NUnit.Framework.TestCaseAttribute("1a2", null)]
         public virtual void VerifyThatWrongCVCNotAccepted(string cvc, string[] exampleTags)
         {
-            string[] tagsOfScenario = exampleTags;
+            string[] @__tags = new string[] {
+                    "done"};
+            if ((exampleTags != null))
+            {
+                @__tags = System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Concat(@__tags, exampleTags));
+            }
+            string[] tagsOfScenario = @__tags;
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             argumentsOfScenario.Add("cvc", cvc);
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Verify that wrong CVC not accepted", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 36
+#line 37
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -184,14 +197,41 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 37
- testRunner.Given(string.Format("the CVC is {0}", cvc), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line hidden
 #line 38
- testRunner.When("I set CVC validations, getting validators", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.Given(string.Format("the CVC is {0} from Examples", cvc), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 39
- testRunner.Then("CVC must invalid", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.When("I call the API /api/paymentLink with CVC", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 40
+ testRunner.Then("I see in response that CVC must be numeric with 3-4 length", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+#line 41
+ testRunner.And("I see response status code is BadRequest", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 43
+ testRunner.Given("the credit card number is empty", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 44
+ testRunner.When("I call the API /api/paymentLink with credit card number", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 45
+ testRunner.Then("I see in response that CVC can not be null or empty", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+#line 46
+ testRunner.And("I see response status code is BadRequest", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 49
+ testRunner.Given("the credit card number is null", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 50
+ testRunner.When("I call the API /api/paymentLink with credit card number", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 51
+ testRunner.Then("I see in response that CVC can not be null or empty", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+#line 52
+ testRunner.And("I see response status code is BadRequest", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -204,7 +244,6 @@ this.ScenarioInitialize(scenarioInfo);
         [NUnit.Framework.TestCaseAttribute("12/20", null)]
         [NUnit.Framework.TestCaseAttribute("01/22", null)]
         [NUnit.Framework.TestCaseAttribute("12", null)]
-        [NUnit.Framework.TestCaseAttribute("", null)]
         [NUnit.Framework.TestCaseAttribute("abc", null)]
         [NUnit.Framework.TestCaseAttribute("1a2", null)]
         [NUnit.Framework.TestCaseAttribute("122021", null)]
@@ -214,7 +253,7 @@ this.ScenarioInitialize(scenarioInfo);
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             argumentsOfScenario.Add("exp", exp);
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Verify that wrong expiration date not accepted", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 50
+#line 62
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -234,14 +273,41 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 51
- testRunner.Given(string.Format("the expiration date is {0}", exp), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 63
+testRunner.Given(string.Format("the expiration date is {0} from Examples", exp), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 52
- testRunner.When("I set expiration date validations, getting validators", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 64
+ testRunner.When("I call the API /api/paymentLink with expiration date", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 53
- testRunner.Then("Expiration date must invalid", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 65
+ testRunner.Then("I see in response that expiration date must be numeric with 3-4 length", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+#line 66
+ testRunner.And("I see response status code is BadRequest", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 68
+ testRunner.Given("the expiration date is empty", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 69
+ testRunner.When("I call the API /api/paymentLink with expiration date", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 70
+ testRunner.Then("I see in response that expiration date can not be null or empty", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+#line 71
+ testRunner.And("I see response status code is BadRequest", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 74
+ testRunner.Given("the expiration date is null", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 75
+ testRunner.When("I call the API /api/paymentLink with expiration date", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 76
+ testRunner.Then("I see in response that expiration date can not be null or empty", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+#line 77
+ testRunner.And("I see response status code is BadRequest", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -263,7 +329,7 @@ this.ScenarioInitialize(scenarioInfo);
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             argumentsOfScenario.Add("cardowner", cardowner);
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Verify that wrong card owner information not accepted", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 68
+#line 91
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -283,13 +349,13 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 69
+#line 92
  testRunner.Given(string.Format("the card owner information is {0}", cardowner), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 70
+#line 93
  testRunner.When("I set card owner information validations, getting validators", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 71
+#line 94
  testRunner.Then("card owner information must invalid", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
@@ -314,7 +380,7 @@ this.ScenarioInitialize(scenarioInfo);
             argumentsOfScenario.Add("exp", exp);
             argumentsOfScenario.Add("cardnumber", cardnumber);
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Verify that expired credit card doesn\'t accepted", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 85
+#line 108
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -334,16 +400,16 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 86
+#line 109
  testRunner.Given(string.Format("the expiration date is {0}", exp), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 87
+#line 110
  testRunner.And(string.Format("the credit card is {0}", cardnumber), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 88
+#line 111
  testRunner.When("I set expiration date and credit card validations, getting validators", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 89
+#line 112
  testRunner.Then("Expiration date must invalid", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
@@ -361,7 +427,7 @@ this.ScenarioInitialize(scenarioInfo);
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             argumentsOfScenario.Add("cardnumber", cardnumber);
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Verify that unknown credit card doesn\'t accepted", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 104
+#line 127
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -381,13 +447,13 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 105
+#line 128
  testRunner.Given(string.Format("the unknown credit card is {0}", cardnumber), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 106
+#line 129
  testRunner.When("I set known credit card validations, getting validators", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 107
+#line 130
  testRunner.Then("the unknown credit card must invalid", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
@@ -409,7 +475,7 @@ this.ScenarioInitialize(scenarioInfo);
             argumentsOfScenario.Add("exp", exp);
             argumentsOfScenario.Add("cvc", cvc);
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Verify that valid credit card", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 116
+#line 139
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -429,22 +495,22 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 117
+#line 140
  testRunner.Given(string.Format("the valid credit number is {0}", cardnumber), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 118
+#line 141
  testRunner.And(string.Format("the valid card owner {0}", cardowner), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 119
+#line 142
  testRunner.And(string.Format("the valid expiration date {0}", exp), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 120
+#line 143
  testRunner.And(string.Format("the valid CVC {0}", cvc), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 121
+#line 144
  testRunner.When("I set known credit card validations and other validations", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 122
+#line 145
  testRunner.Then("all of informatin must be valid", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }

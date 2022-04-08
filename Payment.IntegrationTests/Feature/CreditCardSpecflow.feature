@@ -1,7 +1,7 @@
 Feature: CreditCardSpecflow
 
 	
-
+@done
 Scenario: Verify that wrong credit card number not accepted
 	Given the credit card number is <cardnumber> from Examples
 	When I call the API /api/paymentLink with credit card number
@@ -33,24 +33,48 @@ Examples:
 	| 40128888888818           |
 	| 52042452500014282        |
 
+@done
 Scenario: Verify that wrong CVC not accepted
-	Given the CVC is <cvc>
-	When I set CVC validations, getting validators
-	Then CVC must invalid
+	Given the CVC is <cvc> from Examples
+	When I call the API /api/paymentLink with CVC
+	Then I see in response that CVC must be numeric with 3-4 length
+	And I see response status code is BadRequest
+
+	Given the credit card number is empty
+	When I call the API /api/paymentLink with credit card number
+	Then I see in response that CVC can not be null or empty
+	And I see response status code is BadRequest
+
+	
+	Given the credit card number is null
+	When I call the API /api/paymentLink with credit card number
+	Then I see in response that CVC can not be null or empty
+	And I see response status code is BadRequest
 
 Examples:
 	| cvc    |
 	| 123456 |
 	| 12     |
-	|        |
 	| abc    |
 	| 1a2    |
 
 
 Scenario: Verify that wrong expiration date not accepted
-	Given the expiration date is <exp>
-	When I set expiration date validations, getting validators
-	Then Expiration date must invalid
+Given the expiration date is <exp> from Examples
+	When I call the API /api/paymentLink with expiration date
+	Then I see in response that expiration date must be numeric with 3-4 length
+	And I see response status code is BadRequest
+
+	Given the expiration date is empty
+	When I call the API /api/paymentLink with expiration date
+	Then I see in response that expiration date can not be null or empty
+	And I see response status code is BadRequest
+
+	
+	Given the expiration date is null
+	When I call the API /api/paymentLink with expiration date
+	Then I see in response that expiration date can not be null or empty
+	And I see response status code is BadRequest
 
 Examples:
 	| exp    |
@@ -59,7 +83,6 @@ Examples:
 	| 12/20  |
 	| 01/22  |
 	| 12     |
-	|        |
 	| abc    |
 	| 1a2    |
 	| 122021 |

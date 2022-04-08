@@ -138,4 +138,16 @@
   <data name="CardNumberCanNotBeNullOrEmpty" xml:space="preserve">
     <value>Card number can not be null or empty</value>
   </data>
+  <data name="CVCCanNotBeNullOrEmpty" xml:space="preserve">
+    <value>CVC can not be null or empty</value>
+  </data>
+  <data name="CVCMustBeNumericWith3_4Length" xml:space="preserve">
+    <value>CVC must be numeric with 3-4 length</value>
+  </data>
+  <data name="ExpirationDateCanNotBeNullOrEmpty" xml:space="preserve">
+    <value>Expiration Date can not be null or empty</value>
+  </data>
+  <data name="ExpirationDateMustBeMMYYFormat" xml:space="preserve">
+    <value>Expiration Date must be MM/YY format</value>
+  </data>
 </root>
