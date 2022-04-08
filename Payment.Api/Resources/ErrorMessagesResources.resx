@@ -150,4 +150,10 @@
   <data name="ExpirationDateMustBeMMYYFormat" xml:space="preserve">
     <value>Expiration Date must be MM/YY format</value>
   </data>
+  <data name="CardOwnerCanNotBeNullOrEmpty" xml:space="preserve">
+    <value>Card owner information can not be null or empty</value>
+  </data>
+  <data name="CardOwnerMustBeAlphabetic" xml:space="preserve">
+    <value>Card owner information must be alphabetic</value>
+  </data>
 </root>

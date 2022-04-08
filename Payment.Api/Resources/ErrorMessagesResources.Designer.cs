@@ -79,11 +79,29 @@ namespace Payment.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Card owner information can not be null or empty.
+        /// </summary>
+        public static string CardOwnerCanNotBeNullOrEmpty {
+            get {
+                return ResourceManager.GetString("CardOwnerCanNotBeNullOrEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Card Owner is invalid.
         /// </summary>
         public static string CardOwnerInvalid {
             get {
                 return ResourceManager.GetString("CardOwnerInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Card owner information must be alphabetic.
+        /// </summary>
+        public static string CardOwnerMustBeAlphabetic {
+            get {
+                return ResourceManager.GetString("CardOwnerMustBeAlphabetic", resourceCulture);
             }
         }
         

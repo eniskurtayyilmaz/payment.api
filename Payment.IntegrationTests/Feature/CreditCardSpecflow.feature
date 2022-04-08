@@ -1,7 +1,7 @@
 Feature: CreditCardSpecflow
 
 	
-@done
+
 Scenario: Verify that wrong credit card number not accepted
 	Given the credit card number is <cardnumber> from Examples
 	When I call the API /api/paymentLink with credit card number
@@ -33,7 +33,7 @@ Examples:
 	| 40128888888818           |
 	| 52042452500014282        |
 
-@done
+
 Scenario: Verify that wrong CVC not accepted
 	Given the CVC is <cvc> from Examples
 	When I call the API /api/paymentLink with CVC
@@ -60,9 +60,9 @@ Examples:
 
 
 Scenario: Verify that wrong expiration date not accepted
-Given the expiration date is <exp> from Examples
+	Given the expiration date is <exp> from Examples
 	When I call the API /api/paymentLink with expiration date
-	Then I see in response that expiration date must be numeric with 3-4 length
+	Then I see in response that expiration date must be MM/YY format
 	And I see response status code is BadRequest
 
 	Given the expiration date is empty
@@ -89,9 +89,21 @@ Examples:
 
 
 Scenario: Verify that wrong card owner information not accepted
-	Given the card owner information is <cardowner>
-	When I set card owner information validations, getting validators
-	Then card owner information must invalid
+	Given the card owner information is <cardowner> from Examples
+	When I call the API /api/paymentLink with card owner information
+	Then I see in response that card owner information must be alphabetic
+	And I see response status code is BadRequest
+
+	Given the card owner information is empty
+	When I call the API /api/paymentLink with card owner information
+	Then I see in response that card owner information can not be null or empty
+	And I see response status code is BadRequest
+
+	
+	Given the card owner information is null
+	When I call the API /api/paymentLink with card owner information
+	Then I see in response that card owner information can not be null or empty
+	And I see response status code is BadRequest
 
 Examples:
 	| cardowner |
@@ -100,8 +112,6 @@ Examples:
 	| 1220      |
 	| 022       |
 	| 12        |
-	|           |
-	| ab        |
 	| 1a2       |
 
 

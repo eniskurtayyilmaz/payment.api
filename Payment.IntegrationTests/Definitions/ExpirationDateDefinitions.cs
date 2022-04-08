@@ -1,79 +1,94 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Payment.Api.Constants;
 using Payment.Api.Models;
+using Payment.Api.Resources;
 using Payment.Api.Validators;
+using Payment.IntegrationTests.Common;
 using TechTalk.SpecFlow;
 
 namespace Payment.IntegrationTests.Definitions
 {
     [Binding]
-    public class ExpirationDateDefinitions
+    public class ExpirationDateDefinitions : TestInitialize
     {
         private readonly ScenarioContext _scenarioContext;
-        private ValidatorHandler _validatorFactory;
         private string _exp;
-        private string _cardnumber;
-
 
         public ExpirationDateDefinitions(ScenarioContext scenarioContext)
         {
             _scenarioContext = scenarioContext;
         }
 
-        [Given(@"the expiration date is (.*)")]
-        public void GivenTheExpirationDateIs(string exp)
+
+        [Given(@"the expiration date is (.*) from Examples")]
+        public void GivenTheExpirationDateNumberIs(string exp)
         {
-            var requestModel = new PaymentLinkPayByCreditCardRequestDTO
-            {
-                IssueDate = _exp
-            };
-            _validatorFactory = new ValidatorHandler(requestModel);
             _exp = exp;
         }
 
-        [Given(@"the credit card is (.*)")]
-        public void GivenTheCreditCardIsCardnumber(string cardnumber)
+        [Given(@"the expiration date is empty")]
+        public void GivenTheExpirationDateNumberIsEmpty()
         {
-            _cardnumber = cardnumber;
+            _exp = string.Empty;
         }
 
-        [When(@"I set expiration date and credit card validations, getting validators")]
-        public void WhenISetExpirationDateAndCreditCardValidationsGettingValidators()
+        [Given(@"the expiration date is null")]
+        public void GivenTheExpirationDateNumberIsNull()
         {
-            _validatorFactory.SetValidators(new List<IValidator>()
-            {
-                new ExpireDateValidator(_exp),
-                new CardNumberValidator(_cardnumber),
-                new CreditCardTypeFactoryBuilder(_cardnumber).SetDefaultValidators()
-            });
+            _exp = null;
+        }
+
+        [When(@"I call the API /api/paymentLink with expiration date")]
+        public async Task WhenISetValidationsGettingValidators()
+        {
+
+            var response = await this.Client.PostAsync(Constant.PaymentLinkEndpoint, JsonData(
+                new PaymentLinkPayByCreditCardRequestDTO()
+                {
+                    IssueDate = _exp
+                }));
+
+            var responseObj = await response.Content.ReadFromJsonAsync<ValidateErrorResult>();
+            _scenarioContext["object"] = responseObj;
+            _scenarioContext["responseCode"] = response.StatusCode;
+        }
+
+        [Then(@"I see in response that expiration date must be MM/YY format")]
+        public void ThenExpirationDateNumberMustBeMMYYFormat()
+        {
+            var responseObj = _scenarioContext["object"] as ValidateErrorResult;
+            responseObj.Should().NotBeNull();
+            responseObj.Errors.Should().NotBeNull();
+            responseObj.Errors.First(x => x.Property == PropertyConstants.ExpirationDate)
+                .Errors
+                .Any(x => x == ErrorMessagesResources.ExpirationDateMustBeMMYYFormat).Should().BeTrue();
 
         }
 
-
-
-        [When(@"I set expiration date validations, getting validators")]
-        public void WhenISetValidationsGettingValidators()
+        [Then(@"I see in response that expiration date can not be null or empty")]
+        public void ThenExpirationDateNumberCanNotBeNullOrEmpty()
         {
-            _validatorFactory.SetValidators(new List<IValidator>()
-            {
-                new ExpireDateValidator(_exp)
-            });
-
-         
+            var responseObj = _scenarioContext["object"] as ValidateErrorResult;
+            responseObj.Should().NotBeNull();
+            responseObj.Errors.Should().NotBeNull();
+            responseObj.Errors.First(x => x.Property == PropertyConstants.ExpirationDate)
+                .Errors
+                .Any(x => x == ErrorMessagesResources.ExpirationDateCanNotBeNullOrEmpty).Should().BeTrue();
         }
 
+        //[Then(@"I see response status code is BadRequest")]
+        //public void ThenISeeResponseStatusCodeIsBadRequest()
+        //{
+        //    var responseCode = (HttpStatusCode)_scenarioContext["responseCode"];
+        //    responseCode.Should().Be(HttpStatusCode.BadRequest);
+        //}
 
-        [Then(@"Expiration date must invalid")]
-        public void ThenExpirationDateMustInvalid()
-        {
-            var validator = _validatorFactory.Validate();
-            validator.Should().NotBeNull();
-            //validator.IsValid.Should().BeFalse();
-            //validator.Error.Should().Contain("ExpireDate");
-        }
     }
 }
