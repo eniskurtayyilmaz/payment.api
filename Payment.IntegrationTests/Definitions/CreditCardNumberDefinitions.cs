@@ -45,7 +45,7 @@ namespace Payment.IntegrationTests.Definitions
             _cardnumber = null;
         }
 
-        [When(@"I call the API /api/paymentLink")]
+        [When(@"I call the API /api/paymentLink with credit card number")]
         public async Task WhenISetValidationsGettingValidators()
         {
 

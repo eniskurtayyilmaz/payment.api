@@ -4,18 +4,18 @@ Feature: CreditCardSpecflow
 
 Scenario: Verify that wrong credit card number not accepted
 	Given the credit card number is <cardnumber> from Examples
-	When I call the API /api/paymentLink
+	When I call the API /api/paymentLink with credit card number
 	Then I see in response that Card number must be numeric with 15-16 length
 	And I see response status code is BadRequest
 
 	Given the credit card number is empty
-	When I call the API /api/paymentLink
+	When I call the API /api/paymentLink with credit card number
 	Then I see in response that Card number can not be null or empty
 	And I see response status code is BadRequest
 
 	
 	Given the credit card number is null
-	When I call the API /api/paymentLink
+	When I call the API /api/paymentLink with credit card number
 	Then I see in response that Card number can not be null or empty
 	And I see response status code is BadRequest
 	

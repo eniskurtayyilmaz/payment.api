@@ -115,7 +115,7 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.Given(string.Format("the credit card number is {0} from Examples", cardnumber), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 7
- testRunner.When("I call the API /api/paymentLink", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I call the API /api/paymentLink with credit card number", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 8
  testRunner.Then("I see in response that Card number must be numeric with 15-16 length", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
@@ -127,7 +127,7 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.Given("the credit card number is empty", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 12
- testRunner.When("I call the API /api/paymentLink", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I call the API /api/paymentLink with credit card number", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 13
  testRunner.Then("I see in response that Card number can not be null or empty", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
@@ -139,7 +139,7 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.Given("the credit card number is null", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 18
- testRunner.When("I call the API /api/paymentLink", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I call the API /api/paymentLink with credit card number", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 19
  testRunner.Then("I see in response that Card number can not be null or empty", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
