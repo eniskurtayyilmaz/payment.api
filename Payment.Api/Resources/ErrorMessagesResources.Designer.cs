@@ -115,6 +115,15 @@ namespace Payment.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Only American Express, Visa, or Mastercard cards accepted.
+        /// </summary>
+        public static string CreditCardOnlyAcceptedCards {
+            get {
+                return ResourceManager.GetString("CreditCardOnlyAcceptedCards", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Credit Card Type is invalid. Only accepted Amex, Mastercard and Visa.
         /// </summary>
         public static string CreditCardTypeInvalid {

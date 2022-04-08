@@ -115,29 +115,12 @@ Examples:
 	| 1a2       |
 
 
-Scenario: Verify that expired credit card doesn't accepted
-	Given the expiration date is <exp>
-	And the credit card is <cardnumber>
-	When I set expiration date and credit card validations, getting validators
-	Then Expiration date must invalid
-	
-Examples:
-	| exp    | cardnumber       |
-	| 123456 | 4012888888881881 |
-	| 12/21  | 5204245250001488 |
-	| 12/20  | 374251018720018  |
-	| 01/22  | 4012888888881881 |
-	| 12     | 5204245250001488 |
-	|        | 374251018720018  |
-	| abc    | 4012888888881881 |
-	| 1a2    | 5204245250001488 |
-	| 122021 | 374251018720018  |
-
 
 Scenario: Verify that unknown credit card doesn't accepted
-	Given the unknown credit card is <cardnumber>
-	When I set known credit card validations, getting validators
-	Then the unknown credit card must invalid
+	Given the unknown credit card is <cardnumber> from Examples
+	When I call the API /api/paymentLink with unknown credit card
+	Then I see in response that Only American Express, Visa, or Mastercard cards accepted
+	And I see response status code is BadRequest
 
 Examples:
 	| cardnumber       |
@@ -151,8 +134,9 @@ Scenario: Verify that valid credit card
 	And the valid card owner <cardowner>
 	And the valid expiration date <exp>
 	And the valid CVC <cvc>
-	When I set known credit card validations and other validations
-	Then all of informatin must be valid
+	When I call the API /api/paymentLink with credit card number, card owner, expiration date and cvc
+	Then I see receipt ID
+	And I see response status code is OK
 
 Examples:
 	| cardnumber       | cardowner       | exp   | cvc |

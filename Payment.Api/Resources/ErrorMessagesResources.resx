@@ -156,4 +156,7 @@
   <data name="CardOwnerMustBeAlphabetic" xml:space="preserve">
     <value>Card owner information must be alphabetic</value>
   </data>
+  <data name="CreditCardOnlyAcceptedCards" xml:space="preserve">
+    <value>Only American Express, Visa, or Mastercard cards accepted</value>
+  </data>
 </root>

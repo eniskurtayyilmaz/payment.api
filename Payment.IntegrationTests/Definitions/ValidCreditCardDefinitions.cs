@@ -1,17 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Payment.Api.Constants;
 using Payment.Api.Models;
+using Payment.Api.Resources;
 using Payment.Api.Validators;
+using Payment.IntegrationTests.Common;
 using TechTalk.SpecFlow;
 
 namespace Payment.IntegrationTests.Definitions
 {
     [Binding]
-    public class ValidCreditCardDefinitions
+    public class ValidCreditCardDefinitions : TestInitialize
     {
         private readonly ScenarioContext _scenarioContext;
         private ValidatorHandler _validatorFactory;
@@ -54,37 +59,39 @@ namespace Payment.IntegrationTests.Definitions
         }
 
 
-        [When(@"I set known credit card validations and other validations")]
-        public void WhenISetValidationsGettingValidators()
+        [When(@"I call the API /api/paymentLink with credit card number, card owner, expiration date and cvc")]
+        public async Task WhenISetValidationsGettingValidators()
         {
-            var requestModel = new PaymentLinkPayByCreditCardRequestDTO
-            {
-                CardOwner = _cardowner,
-                CreditCardNumber = _cardnumber,
-                IssueDate = _exp,
-                CVC = _cvc
-            };
-            _validatorFactory = new ValidatorHandler(requestModel);
-            _validatorFactory.SetValidators(new List<IValidator>()
-            {
-                new CardOwnerInformationValidator(_cardowner),
-                new CvcValidator(_cvc),
-                new ExpireDateValidator(_exp),
-                new CardNumberValidator(_cardnumber),
-                new CreditCardTypeFactoryBuilder(_cardnumber).SetDefaultValidators()
-            });
 
+            var response = await this.Client.PostAsync(Constant.PaymentLinkEndpoint, JsonData(
+                new PaymentLinkPayByCreditCardRequestDTO
+                {
+                    CardOwner = _cardowner,
+                    CreditCardNumber = _cardnumber,
+                    IssueDate = _exp,
+                    CVC = _cvc
+                }));
+
+            var responseObj = await response.Content.ReadFromJsonAsync<PaymentLinkPayByCreditCardResponseDTO>();
+            _scenarioContext["object"] = responseObj;
+            _scenarioContext["responseCode"] = response.StatusCode;
         }
 
 
-        [Then(@"all of informatin must be valid")]
-        public void ThenMustValid()
+        [Then(@"I see receipt ID")]
+        public void ThenISeeReceiptId()
         {
-
-            var validator = _validatorFactory.Validate();
-            validator.Should().NotBeNull();
-            //validator.IsValid.Should().BeTrue();
+            var responseObj = _scenarioContext["object"] as PaymentLinkPayByCreditCardResponseDTO;
+            responseObj.Should().NotBeNull();
+            responseObj.ReceiptId.Should().NotBeNull();
+            responseObj.ReceiptId.Should().NotBeEmpty();
         }
 
+        [Then(@"I see response status code is OK")]
+        public void ThenResponseStatusCodeOK()
+        {
+            var responseCode = (HttpStatusCode)_scenarioContext["responseCode"];
+            responseCode.Should().Be(HttpStatusCode.OK);
+        }
     }
 }

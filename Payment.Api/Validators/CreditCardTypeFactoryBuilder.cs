@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Payment.Api.Constants;
 using Payment.Api.Models;
+using Payment.Api.Resources;
 
 namespace Payment.Api.Validators
 {
@@ -36,7 +37,7 @@ namespace Payment.Api.Validators
                 }
             }
 
-            return new ValidatorResult(PropertyConstants.CreditCard, "American Express, Visa, or Mastercard accepted");
+            return new ValidatorResult(PropertyConstants.CreditCard, ErrorMessagesResources.CreditCardOnlyAcceptedCards);
         }
     }
 }

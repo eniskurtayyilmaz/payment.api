@@ -1,59 +1,63 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Payment.Api.Constants;
 using Payment.Api.Models;
+using Payment.Api.Resources;
 using Payment.Api.Validators;
+using Payment.IntegrationTests.Common;
 using TechTalk.SpecFlow;
 
 namespace Payment.IntegrationTests.Definitions
 {
-    
     [Binding]
-    public class UnknownCreditCardDefinitions
+    public class UnknownCreditCardDefinitions : TestInitialize
     {
         private readonly ScenarioContext _scenarioContext;
-        private ValidatorHandler _validatorFactory;
-        private string _cardnumber;
-
+        private string _unknownCreditCard;
 
         public UnknownCreditCardDefinitions(ScenarioContext scenarioContext)
         {
             _scenarioContext = scenarioContext;
         }
 
-        [Given(@"the unknown credit card is (.*)")]
-        public void GivenTheUnkownCreditCardIs(string creditcard)
+
+        [Given(@"the unknown credit card is (.*) from Examples")]
+        public void GivenTheUnknownCreditCardNumberIs(string cardnumber)
         {
-            var requestModel = new PaymentLinkPayByCreditCardRequestDTO
-            {
-               CreditCardNumber = creditcard
-            };
-            _validatorFactory = new ValidatorHandler(requestModel);
-            _cardnumber = creditcard;
+            this._unknownCreditCard = cardnumber;
         }
 
-        [When(@"I set known credit card validations, getting validators")]
-        public void WhenISetKnownCreditCardValidationsGettingValidators()
+        [When(@"I call the API /api/paymentLink with unknown credit card")]
+        public async Task WhenISetValidationsGettingValidators()
         {
-            _validatorFactory.SetValidators(new List<IValidator>()
-            {
-                new CreditCardTypeFactoryBuilder(_cardnumber).SetDefaultValidators()
-            });
 
+            var response = await this.Client.PostAsync(Constant.PaymentLinkEndpoint, JsonData(
+                new PaymentLinkPayByCreditCardRequestDTO()
+                {
+                    CreditCardNumber = _unknownCreditCard
+                }));
+
+            var responseObj = await response.Content.ReadFromJsonAsync<ValidateErrorResult>();
+            _scenarioContext["object"] = responseObj;
+            _scenarioContext["responseCode"] = response.StatusCode;
         }
 
-
-
-        [Then(@"the unknown credit card must invalid")]
-        public void ThenExpirationDateMustInvalid()
+        [Then(@"I see in response that Only American Express, Visa, or Mastercard cards accepted")]
+        public void ThenUnknownCreditCardNumber()
         {
-            var validator = _validatorFactory.Validate();
-            validator.Should().NotBeNull();
-            //validator.IsValid.Should().BeFalse();
-            //validator.Error.Should().Contain("American Express, Visa, or Mastercard accepted");
+            var responseObj = _scenarioContext["object"] as ValidateErrorResult;
+            responseObj.Should().NotBeNull();
+            responseObj.Errors.Should().NotBeNull();
+            responseObj.Errors.First(x => x.Property == PropertyConstants.CreditCard)
+                .Errors
+                .Any(x => x == ErrorMessagesResources.CreditCardOnlyAcceptedCards).Should().BeTrue();
+
         }
     }
 }
