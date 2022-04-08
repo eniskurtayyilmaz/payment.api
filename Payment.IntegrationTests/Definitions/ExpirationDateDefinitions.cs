@@ -83,12 +83,40 @@ namespace Payment.IntegrationTests.Definitions
                 .Any(x => x == ErrorMessagesResources.ExpirationDateCanNotBeNullOrEmpty).Should().BeTrue();
         }
 
-        //[Then(@"I see response status code is BadRequest")]
-        //public void ThenISeeResponseStatusCodeIsBadRequest()
-        //{
-        //    var responseCode = (HttpStatusCode)_scenarioContext["responseCode"];
-        //    responseCode.Should().Be(HttpStatusCode.BadRequest);
-        //}
+        [Given(@"the expired expiration date is (.*)")]
+        public void GivenTheExpiredExpirationDateIs(string exp)
+        {
+            _exp = exp;
+        }
+
+        [When(@"I call the API /api/paymentLink with credit card number, expiration date")]
+        public async Task WhenICallTheAPIApiPaymentLinkWithCreditCardNumberExpirationDate()
+        {
+
+            var response = await this.Client.PostAsync(Constant.PaymentLinkEndpoint, JsonData(
+                new PaymentLinkPayByCreditCardRequestDTO()
+                {
+                    IssueDate = _exp,
+                    CreditCardNumber = _scenarioContext["cardnumber"] as string
+                }));
+
+            var responseObj = await response.Content.ReadFromJsonAsync<ValidateErrorResult>();
+            _scenarioContext["object"] = responseObj;
+            _scenarioContext["responseCode"] = response.StatusCode;
+        }
+
+
+        [Then(@"I see in response that the credit card has been expired")]
+        public void ThenISeeInResponseThatTheCreditCardHasBeenExpired()
+        {
+            var responseObj = _scenarioContext["object"] as ValidateErrorResult;
+            responseObj.Should().NotBeNull();
+            responseObj.Errors.Should().NotBeNull();
+            responseObj.Errors.First(x => x.Property == PropertyConstants.ExpirationDate)
+                .Errors
+                .Any(x => x == ErrorMessagesResources.CreditCardExpirationDateExpired).Should().BeTrue();
+        }
+
 
     }
 }

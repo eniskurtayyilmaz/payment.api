@@ -159,4 +159,7 @@
   <data name="CreditCardOnlyAcceptedCards" xml:space="preserve">
     <value>Only American Express, Visa, or Mastercard cards accepted</value>
   </data>
+  <data name="CreditCardExpirationDateExpired" xml:space="preserve">
+    <value>The credit card has been expired</value>
+  </data>
 </root>

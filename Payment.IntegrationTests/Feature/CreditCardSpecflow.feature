@@ -79,9 +79,6 @@ Scenario: Verify that wrong expiration date not accepted
 Examples:
 	| exp    |
 	| 123456 |
-	| 12/21  |
-	| 12/20  |
-	| 01/22  |
 	| 12     |
 	| abc    |
 	| 1a2    |
@@ -149,3 +146,15 @@ Examples:
 	
 	
 	
+Scenario: Verify that expired credit card doesn't accepted
+	Given the expired expiration date is <exp>
+	And the valid credit number is <cardnumber>
+	When I call the API /api/paymentLink with credit card number, expiration date
+	Then I see in response that the credit card has been expired
+	And I see response status code is BadRequest
+	
+Examples:
+	| exp   | cardnumber       |
+	| 12/21 | 5204245250001488 |
+	| 12/20 | 374251018720018  |
+	| 01/22 | 4012888888881881 |

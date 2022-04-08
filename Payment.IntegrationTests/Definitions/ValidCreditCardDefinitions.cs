@@ -36,6 +36,7 @@ namespace Payment.IntegrationTests.Definitions
         public void GivenTheValidCreditNumberIs(string cardnumber)
         {
             _cardnumber = cardnumber;
+            _scenarioContext["cardnumber"] = _cardnumber;
         }
 
         [Given(@"the valid card owner (.*)")]

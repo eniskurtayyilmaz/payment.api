@@ -106,6 +106,15 @@ namespace Payment.Api.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The credit card has been expired.
+        /// </summary>
+        public static string CreditCardExpirationDateExpired {
+            get {
+                return ResourceManager.GetString("CreditCardExpirationDateExpired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Credit Card Number is invalid.
         /// </summary>
         public static string CreditCardNumberInvalid {
