@@ -21,7 +21,7 @@ namespace Payment.Api.Validators
 
 
             return Regex.IsMatch(arg, "^(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14})$")
-                ? new ValidatorResult(true)
+                ? new ValidatorResult()
                 : new ValidatorResult(PropertyConstants.CreditCard, "The credit card type isn't Mastercard");
         }
     }

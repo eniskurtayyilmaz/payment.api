@@ -20,7 +20,7 @@ namespace Payment.Api.Validators
             }
 
             return Regex.IsMatch(arg, "^4[0-9]{12}(?:[0-9]{3})?$")
-                ? new ValidatorResult(true)
+                ? new ValidatorResult()
                 : new ValidatorResult(PropertyConstants.CreditCard, "The credit card type isn't Visa card");
         }
     }

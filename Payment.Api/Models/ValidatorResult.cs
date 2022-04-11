@@ -14,13 +14,9 @@ namespace Payment.Api.Models
             Error = error;
         }
 
-        public ValidatorResult(bool isValid)
+        public ValidatorResult()
         {
-            if (isValid == false)
-            {
-                throw new ArgumentException();
-            }
-            IsValid = isValid;
+            IsValid = true;
         }
     }
 }

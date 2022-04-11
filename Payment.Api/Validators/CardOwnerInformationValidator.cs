@@ -24,7 +24,7 @@ namespace Payment.Api.Validators
          
 
             return Regex.IsMatch(arg, "^((?:[A-Za-z]+ ?){3})$")
-                ? new ValidatorResult(true)
+                ? new ValidatorResult()
                 : new ValidatorResult(PropertyConstants.CardOwner, ErrorMessagesResources.CardOwnerMustBeAlphabetic);
         }
     }

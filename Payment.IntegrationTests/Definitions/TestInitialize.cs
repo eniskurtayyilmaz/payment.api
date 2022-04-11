@@ -22,11 +22,5 @@ namespace Payment.IntegrationTests.Definitions
             var json = JsonConvert.SerializeObject(data);
             return new StringContent(json, Encoding.UTF8, "application/json");
         }
-
-        public T ObjectData<T>(string json)
-        {
-            var result = JsonConvert.DeserializeObject<T>(json);
-            return result;
-        }
     }
 }

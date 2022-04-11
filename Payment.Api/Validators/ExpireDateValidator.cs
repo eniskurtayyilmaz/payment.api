@@ -41,7 +41,7 @@ namespace Payment.Api.Validators
             var month = currentDateTime.Month;
 
             return year <= convertedYear && (year < convertedYear || month < convertedMonth) ?
-                new ValidatorResult(true) : new ValidatorResult(PropertyConstants.ExpirationDate, ErrorMessagesResources.CreditCardExpirationDateExpired);
+                new ValidatorResult() : new ValidatorResult(PropertyConstants.ExpirationDate, ErrorMessagesResources.CreditCardExpirationDateExpired);
         }
     }
 }

@@ -40,13 +40,13 @@ Scenario: Verify that wrong CVC not accepted
 	Then I see in response that CVC must be numeric with 3-4 length
 	And I see response status code is BadRequest
 
-	Given the credit card number is empty
+	Given the CVC is empty
 	When I call the API /api/paymentLink with credit card number
 	Then I see in response that CVC can not be null or empty
 	And I see response status code is BadRequest
 
 	
-	Given the credit card number is null
+	Given the CVC is null
 	When I call the API /api/paymentLink with credit card number
 	Then I see in response that CVC can not be null or empty
 	And I see response status code is BadRequest
@@ -80,6 +80,7 @@ Examples:
 	| exp    |
 	| 123456 |
 	| 12     |
+	| 12/ab     |
 	| abc    |
 	| 1a2    |
 	| 122021 |

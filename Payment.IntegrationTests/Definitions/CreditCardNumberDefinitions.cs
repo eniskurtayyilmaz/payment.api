@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using FluentAssertions;
+using Payment.Api.Constants;
+using Payment.Api.Models;
+using Payment.Api.Resources;
+using Payment.IntegrationTests.Common;
 using System.Linq;
 using System.Net;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
-using FluentAssertions;
-using Payment.Api.Constants;
-using Payment.Api.Models;
-using Payment.Api.Resources;
-using Payment.Api.Validators;
-using Payment.IntegrationTests.Common;
-using Payment.IntegrationTests.Models;
 using TechTalk.SpecFlow;
 
 namespace Payment.IntegrationTests.Definitions

@@ -20,7 +20,7 @@ namespace Payment.Api.Validators
             }
 
             return Regex.IsMatch(arg, "^3[47][0-9]{13}$")
-                ? new ValidatorResult(true)
+                ? new ValidatorResult()
                 : new ValidatorResult(PropertyConstants.CreditCard, "The credit card type isn't Americanexpress");
         }
     }

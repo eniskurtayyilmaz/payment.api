@@ -22,7 +22,7 @@ namespace Payment.Api.Validators
 
 
             return Regex.IsMatch(arg, "^[0-9]{15,16}$")
-                ? new ValidatorResult(true)
+                ? new ValidatorResult()
                 : new ValidatorResult(PropertyConstants.CreditCard, ErrorMessagesResources.CardNumberMustBeNumericWith15_16Length);
         }
     }

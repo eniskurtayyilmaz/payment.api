@@ -39,4 +39,8 @@
     <ProjectReference Include="..\Payment.Api\Payment.Api.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Validators\" />
+  </ItemGroup>
+
 </Project>

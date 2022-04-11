@@ -21,4 +21,8 @@
       <ProjectReference Include="..\Payment.Api\Payment.Api.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Models\" />
+    </ItemGroup>
+
 </Project>
