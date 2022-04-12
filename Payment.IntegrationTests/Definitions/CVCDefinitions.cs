@@ -50,7 +50,7 @@ namespace Payment.IntegrationTests.Definitions
         {
 
             var response = await this.Client.PostAsync(Constant.PaymentLinkEndpoint, JsonData(
-                new PaymentLinkPayByCreditCardRequestDTO()
+                new PaymentLinkPayByCreditCardRequestDto()
                 {
                     CVC = _cvc
                 }));

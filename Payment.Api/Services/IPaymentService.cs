@@ -8,12 +8,12 @@ namespace Payment.Api.Services
 {
     public interface IPaymentService
     {
-        Task<PaymentLinkPayByCreditCardResponseDTO> TakePayment(PaymentLinkPayByCreditCardRequestDTO requestModel);
+        Task<PaymentLinkPayByCreditCardResponseDto> TakePayment(PaymentLinkPayByCreditCardRequestDto requestModel);
     }
 
     public class PaymentService : IPaymentService
     {
-        public async Task<PaymentLinkPayByCreditCardResponseDTO> TakePayment(PaymentLinkPayByCreditCardRequestDTO requestModel)
+        public async Task<PaymentLinkPayByCreditCardResponseDto> TakePayment(PaymentLinkPayByCreditCardRequestDto requestModel)
         {
 
             //Business Logic
@@ -21,7 +21,7 @@ namespace Payment.Api.Services
             //Queue -> if purchase is valid.
 
 
-            return await Task.Run(() => new PaymentLinkPayByCreditCardResponseDTO
+            return await Task.Run(() => new PaymentLinkPayByCreditCardResponseDto
             {
                 ReceiptId = Guid.NewGuid().ToString()
             });

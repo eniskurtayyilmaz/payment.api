@@ -19,7 +19,6 @@ namespace Payment.IntegrationTests.Definitions
     public class ValidCreditCardDefinitions : TestInitialize
     {
         private readonly ScenarioContext _scenarioContext;
-        private ValidatorHandler _validatorFactory;
         private string _cvc;
         private string _cardowner;
         private string _exp;
@@ -65,7 +64,7 @@ namespace Payment.IntegrationTests.Definitions
         {
 
             var response = await this.Client.PostAsync(Constant.PaymentLinkEndpoint, JsonData(
-                new PaymentLinkPayByCreditCardRequestDTO
+                new PaymentLinkPayByCreditCardRequestDto
                 {
                     CardOwner = _cardowner,
                     CreditCardNumber = _cardnumber,
@@ -73,7 +72,7 @@ namespace Payment.IntegrationTests.Definitions
                     CVC = _cvc
                 }));
 
-            var responseObj = await response.Content.ReadFromJsonAsync<PaymentLinkPayByCreditCardResponseDTO>();
+            var responseObj = await response.Content.ReadFromJsonAsync<PaymentLinkPayByCreditCardResponseDto>();
             _scenarioContext["object"] = responseObj;
             _scenarioContext["responseCode"] = response.StatusCode;
         }
@@ -82,7 +81,7 @@ namespace Payment.IntegrationTests.Definitions
         [Then(@"I see receipt ID")]
         public void ThenISeeReceiptId()
         {
-            var responseObj = _scenarioContext["object"] as PaymentLinkPayByCreditCardResponseDTO;
+            var responseObj = _scenarioContext["object"] as PaymentLinkPayByCreditCardResponseDto;
             responseObj.Should().NotBeNull();
             responseObj.ReceiptId.Should().NotBeNull();
             responseObj.ReceiptId.Should().NotBeEmpty();

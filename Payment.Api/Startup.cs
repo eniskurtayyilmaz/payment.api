@@ -22,8 +22,6 @@ namespace Payment.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddHealthChecks();
-            //services.AddFluentValidation(fv =>
-            //    fv.RegisterValidatorsFromAssemblyContaining<PaymentLinkPayByCreditCardRequestDTOValidator>());
             services.AddSingleton<IPaymentService, PaymentService>();
             services.AddControllers();
             services.AddSwaggerGen();

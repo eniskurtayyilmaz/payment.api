@@ -1,6 +1,6 @@
 ﻿namespace Payment.Api.Constants
 {
-    public class PropertyConstants
+    public static class PropertyConstants
     {
         public const string CreditCard = "CreditCard";
         public const string CardOwner = "CardOwner";

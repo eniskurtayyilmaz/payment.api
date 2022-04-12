@@ -21,7 +21,6 @@ namespace Payment.Api.Validators
             _validators.Add(new MasterCreditCardValidator(_cardNumber));
             _validators.Add(new VisaCardValidator(_cardNumber));
             _validators.Add(new AmericanExpressCardValidator(_cardNumber));
-            //_validators.Add(new BinanceCardValidator(_cardNumber));
 
             return this;
         }

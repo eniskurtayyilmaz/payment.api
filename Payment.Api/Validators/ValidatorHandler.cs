@@ -7,12 +7,12 @@ using Payment.Api.Utils;
 
 namespace Payment.Api.Validators
 {
-    public class ValidatorHandler : ValidatorResult<PaymentLinkPayByCreditCardRequestDTO>
+    public class ValidatorHandler : ValidatorResult<PaymentLinkPayByCreditCardRequestDto>
     {
-        private readonly PaymentLinkPayByCreditCardRequestDTO _model;
+        private readonly PaymentLinkPayByCreditCardRequestDto _model;
 
         private IList<IValidator> _validators;
-        public ValidatorHandler(PaymentLinkPayByCreditCardRequestDTO model) : base(model)
+        public ValidatorHandler(PaymentLinkPayByCreditCardRequestDto model) : base(model)
         {
             _model = model;
             this.SetValidators();

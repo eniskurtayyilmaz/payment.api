@@ -21,7 +21,7 @@ namespace Payment.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> PayByCreditCard([FromBody] PaymentLinkPayByCreditCardRequestDTO model)
+        public async Task<IActionResult> PayByCreditCard([FromBody] PaymentLinkPayByCreditCardRequestDto model)
         {
             var validatorHandler = new ValidatorHandler(model);
 

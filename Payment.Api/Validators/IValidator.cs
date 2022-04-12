@@ -14,7 +14,7 @@ namespace Payment.Api.Validators
     {
         public TModel ObjectValue { get; protected set; }
 
-        public Validator(TModel objectValue)
+        protected Validator(TModel objectValue)
         {
             this.ObjectValue = objectValue;
         }

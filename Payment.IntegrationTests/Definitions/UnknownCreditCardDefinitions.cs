@@ -38,7 +38,7 @@ namespace Payment.IntegrationTests.Definitions
         {
 
             var response = await this.Client.PostAsync(Constant.PaymentLinkEndpoint, JsonData(
-                new PaymentLinkPayByCreditCardRequestDTO()
+                new PaymentLinkPayByCreditCardRequestDto()
                 {
                     CreditCardNumber = _unknownCreditCard
                 }));

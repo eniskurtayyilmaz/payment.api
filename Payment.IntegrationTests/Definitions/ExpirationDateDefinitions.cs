@@ -50,7 +50,7 @@ namespace Payment.IntegrationTests.Definitions
         {
 
             var response = await this.Client.PostAsync(Constant.PaymentLinkEndpoint, JsonData(
-                new PaymentLinkPayByCreditCardRequestDTO()
+                new PaymentLinkPayByCreditCardRequestDto()
                 {
                     IssueDate = _exp
                 }));
@@ -94,7 +94,7 @@ namespace Payment.IntegrationTests.Definitions
         {
 
             var response = await this.Client.PostAsync(Constant.PaymentLinkEndpoint, JsonData(
-                new PaymentLinkPayByCreditCardRequestDTO()
+                new PaymentLinkPayByCreditCardRequestDto()
                 {
                     IssueDate = _exp,
                     CreditCardNumber = _scenarioContext["cardnumber"] as string
