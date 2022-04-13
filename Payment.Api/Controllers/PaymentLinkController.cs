@@ -1,7 +1,11 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Payment.Api.Models;
 using Payment.Api.Services;
+using Payment.Api.Validators;
 
 namespace Payment.Api.Controllers
 {
@@ -9,17 +13,25 @@ namespace Payment.Api.Controllers
     [Route("api/paymentLink")]
     public class PaymentLinkController : ControllerBase
     {
-        private readonly IPaymentService _paymentService;
+        private readonly IPaymentService _paymentService = null;
 
         public PaymentLinkController(IPaymentService paymentService)
         {
             _paymentService = paymentService;
         }
-        
+
         [HttpPost]
-        public async Task<IActionResult> PayByCreditCard([FromBody] PaymentLinkPayByCreditCardRequestDTO model)
+        public IActionResult PayByCreditCard([FromBody] PaymentLinkPayByCreditCardRequestDto model)
         {
-            return Ok(await _paymentService.TakePayment(model));
+            var validatorHandler = new ValidatorHandler(model);
+
+            var resultOfErrorValidatorResults = validatorHandler.Validate();
+            if (resultOfErrorValidatorResults != null)
+            {
+                return BadRequest(resultOfErrorValidatorResults);
+            }
+
+            return Ok(_paymentService.TakePayment(model));
         }
     }
 }

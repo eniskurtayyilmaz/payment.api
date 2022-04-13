@@ -1,28 +1,24 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Payment.Api.Models;
+using Payment.Api.Validators;
 
 namespace Payment.Api.Services
 {
     public interface IPaymentService
     {
-        Task<PaymentLinkPayByCreditCardResponseDTO> TakePayment(PaymentLinkPayByCreditCardRequestDTO requestModel);
+        PaymentLinkPayByCreditCardResponseDto TakePayment(PaymentLinkPayByCreditCardRequestDto requestModel);
     }
 
     public class PaymentService : IPaymentService
     {
-        public async Task<PaymentLinkPayByCreditCardResponseDTO> TakePayment(PaymentLinkPayByCreditCardRequestDTO requestModel)
+        public PaymentLinkPayByCreditCardResponseDto TakePayment(PaymentLinkPayByCreditCardRequestDto requestModel)
         {
-            
-            //Business Logic
-            
-            //Queue -> if purchase is valid.
-
-
-            return await Task.Run(() => new PaymentLinkPayByCreditCardResponseDTO
+            return new PaymentLinkPayByCreditCardResponseDto
             {
                 ReceiptId = Guid.NewGuid().ToString()
-            });
+            };
         }
     }
 }

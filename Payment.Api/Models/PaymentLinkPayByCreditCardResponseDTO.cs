@@ -1,6 +1,6 @@
 namespace Payment.Api.Models
 {
-    public class PaymentLinkPayByCreditCardResponseDTO
+    public class PaymentLinkPayByCreditCardResponseDto
     {
         public string ReceiptId { get; set; }
     }

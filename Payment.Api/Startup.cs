@@ -14,30 +14,19 @@ namespace Payment.Api
     {
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
 
-        public void ConfigureServices(IServiceCollection services)
+        public virtual void ConfigureServices(IServiceCollection services)
         {
             services.AddHealthChecks();
-            services.AddFluentValidation(fv =>
-                fv.RegisterValidatorsFromAssemblyContaining<PaymentLinkPayByCreditCardRequestDTOValidator>());
             services.AddSingleton<IPaymentService, PaymentService>();
             services.AddControllers();
             services.AddSwaggerGen();
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public virtual void Configure(IApplicationBuilder app)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Payment.Api v1"));
-            }
-
 
             app.UseRouting();
 
