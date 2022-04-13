@@ -41,12 +41,6 @@ namespace Payment.UnitTests.Controllers
             badRequest.Should().NotBeNull();
             badRequest.StatusCode.Should().Be(400);
             badRequest.Value.Should().BeAssignableTo<ValidateErrorResult>();
-            //var responseObj = await result(); // PaymentLinkPayByCreditCardResponseDto;
-            //responseObj.Should().NotBeNull();
-            //responseObj.ReceiptId.Should().NotBeNull();
-            //responseObj.ReceiptId.Should().NotBeEmpty();
-
-
         }
     }
 }
