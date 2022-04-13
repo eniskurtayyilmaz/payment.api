@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\mypc_YILM248\source\repos\payment.api\Payment.IntegrationTests\Definitions\ValidCreditCardDefinitions.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http.Json;
+using System.Text;
+using System.Threading.Tasks;
+using FluentAssertions;
+using Payment.Api.Constants;
+using Payment.Api.Models;
+using Payment.Api.Resources;
+using Payment.Api.Validators;
+using Payment.IntegrationTests.Common;
+using TechTalk.SpecFlow;
+
+namespace Payment.IntegrationTests.Definitions
+{
+    [Binding]
+    public class ValidCreditCardDefinitions : TestInitialize
+    {
+        private readonly ScenarioContext _scenarioContext;
+        private string _cvc;
+        private string _cardowner;
+        private string _exp;
+        private string _cardnumber;
+
+
+        public ValidCreditCardDefinitions(ScenarioContext scenarioContext)
+        {
+            _scenarioContext = scenarioContext;
+        }
+
+
+        [Given(@&quot;the valid credit number is (.*)&quot;)]
+        public void GivenTheValidCreditNumberIs(string cardnumber)
+        {
+            _cardnumber = cardnumber;
+            _scenarioContext[&quot;cardnumber&quot;] = _cardnumber;
+        }
+
+        [Given(@&quot;the valid card owner (.*)&quot;)]
+        public void GivenTheValidCardOwner(string cardowner)
+        {
+            _cardowner = cardowner;
+        }
+
+
+        [Given(@&quot;the valid expiration date (.*)&quot;)]
+        public void GivenTheValidExpirationDate(string exp)
+        {
+            _exp = exp;
+        }
+
+        [Given(@&quot;the valid CVC (.*)&quot;)]
+        public void GivenTheValidCVC(string cvc)
+        {
+            _cvc = cvc;
+
+        }
+
+
+        [When(@&quot;I call the API /api/paymentLink with credit card number, card owner, expiration date and cvc&quot;)]
+        public async Task WhenISetValidationsGettingValidators()
+        {
+
+            var response = await this.Client.PostAsync(Constant.PaymentLinkEndpoint, JsonData(
+                new PaymentLinkPayByCreditCardRequestDto
+                {
+                    CardOwner = _cardowner,
+                    CreditCardNumber = _cardnumber,
+                    IssueDate = _exp,
+                    CVC = _cvc
+                }));
+
+            var responseObj = await response.Content.ReadFromJsonAsync&lt;PaymentLinkPayByCreditCardResponseDto&gt;();
+            _scenarioContext[&quot;object&quot;] = responseObj;
+            _scenarioContext[&quot;responseCode&quot;] = response.StatusCode;
+        }
+
+
+        [Then(@&quot;I see receipt ID&quot;)]
+        public void ThenISeeReceiptId()
+        {
+            var responseObj = _scenarioContext[&quot;object&quot;] as PaymentLinkPayByCreditCardResponseDto;
+            responseObj.Should().NotBeNull();
+            responseObj.ReceiptId.Should().NotBeNull();
+            responseObj.ReceiptId.Should().NotBeEmpty();
+        }
+
+        [Then(@&quot;I see response status code is OK&quot;)]
+        public void ThenResponseStatusCodeOK()
+        {
+            var responseCode = (HttpStatusCode)_scenarioContext[&quot;responseCode&quot;];
+            responseCode.Should().Be(HttpStatusCode.OK);
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[28,9,28,75,1],[29,9,29,10,1],[30,13,30,48,1],[31,9,31,10,1],[36,9,36,10,1],[37,13,37,38,1],[38,13,38,58,1],[39,9,39,10,1],[43,9,43,10,1],[44,13,44,36,1],[45,9,45,10,1],[50,9,50,10,1],[51,13,51,24,1],[52,9,52,10,1],[56,9,56,10,1],[57,13,57,24,1],[59,9,59,10,1],[64,9,64,10,1],[66,13,73,21,1],[75,13,75,113,1],[76,13,76,54,1],[77,13,77,68,1],[78,9,78,10,1],[83,9,83,10,1],[84,13,84,99,1],[85,13,85,46,1],[86,13,86,56,1],[87,13,87,57,1],[88,9,88,10,1],[92,9,92,10,1],[93,13,93,81,1],[94,13,94,57,1],[95,9,95,10,1]]);
+    </script>
+  </body>
+</html>

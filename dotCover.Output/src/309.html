@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\mypc_YILM248\source\repos\payment.api\Payment.Api\Services\IPaymentService.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Payment.Api.Models;
+using Payment.Api.Validators;
+
+namespace Payment.Api.Services
+{
+    public interface IPaymentService
+    {
+        PaymentLinkPayByCreditCardResponseDto TakePayment(PaymentLinkPayByCreditCardRequestDto requestModel);
+    }
+
+    public class PaymentService : IPaymentService
+    {
+        public PaymentLinkPayByCreditCardResponseDto TakePayment(PaymentLinkPayByCreditCardRequestDto requestModel)
+        {
+            return new PaymentLinkPayByCreditCardResponseDto
+            {
+                ReceiptId = Guid.NewGuid().ToString()
+            };
+        }
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[17,9,17,10,1],[18,13,21,15,1],[22,9,22,10,1]]);
+    </script>
+  </body>
+</html>

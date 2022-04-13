@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\mypc_YILM248\source\repos\payment.api\Payment.Api\Extensions\HealthCheckExtension.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System.Linq;
+using System.Net;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Newtonsoft.Json;
+
+namespace Payment.Api.Extensions
+{
+    public static class HealthCheckExtension
+    {
+        public static void ConfigureHealthCheck(this IApplicationBuilder app)
+        {
+            app.UseHealthChecks(&quot;/health-check&quot;, new HealthCheckOptions
+            {
+                ResponseWriter = async (c, r) =&gt;
+                {
+                    var result = JsonConvert.SerializeObject(new
+                    {
+                        status = r.Status.ToString(),
+                        components = r.Entries.Select(e =&gt; new {key = e.Key, value = e.Value.Status.ToString()})
+                    });
+                    c.Response.StatusCode = r.Status == HealthStatus.Healthy
+                        ? (int) HttpStatusCode.OK
+                        : (int) HttpStatusCode.ServiceUnavailable;
+                    c.Response.ContentType = &quot;application/json&quot;;
+                    await c.Response.WriteAsync(result);
+                }
+            });
+        }
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[14,9,14,10,1],[15,13,18,17,1],[18,17,18,18,0],[18,18,19,21,1],[19,21,22,60,0],[22,60,22,112,0],[22,112,23,24,0],[23,24,24,21,1],[24,21,26,67,0],[26,67,27,21,1],[27,21,27,65,0],[27,65,28,21,1],[28,21,28,57,0],[28,57,29,17,1],[29,17,29,18,0],[29,18,30,16,1],[31,9,31,10,1]]);
+    </script>
+  </body>
+</html>

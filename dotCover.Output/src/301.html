@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\mypc_YILM248\source\repos\payment.api\Payment.Api\Validators\ExpireDateValidator.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System;
+using Payment.Api.Constants;
+using Payment.Api.Models;
+using Payment.Api.Resources;
+using Payment.Api.Utils;
+
+namespace Payment.Api.Validators
+{
+    public class ExpireDateValidator : Validator&lt;string&gt;
+    {
+        public ExpireDateValidator(string expireDate) : base(expireDate)
+        {
+
+        }
+
+        public override ValidatorResult Validate()
+        {
+            var arg = this.ObjectValue;
+            if (string.IsNullOrEmpty(arg) || string.IsNullOrWhiteSpace(arg))
+            {
+                return new ValidatorResult(PropertyConstants.ExpirationDate, ErrorMessagesResources.ExpirationDateCanNotBeNullOrEmpty);
+            }
+
+            var splitDate = arg.Split(&quot;/&quot;);
+            if (splitDate.Length is &lt;= 1 or &gt;= 3)
+            {
+                //&quot;ExpireDate doesn&#39;t containts of &#39;/&#39;&quot;
+                return new ValidatorResult(PropertyConstants.ExpirationDate, ErrorMessagesResources.ExpirationDateMustBeMMYYFormat);
+            }
+
+            var currentDateTime = ClockUtils.Now();
+
+            if (!int.TryParse(splitDate[0], out var convertedMonth) ||
+                !int.TryParse(splitDate[1], out var convertedYear))
+            {
+                //&quot;ExpireDate doesn&#39;t containts of numbers&quot;
+                return new ValidatorResult(PropertyConstants.ExpirationDate, ErrorMessagesResources.ExpirationDateMustBeMMYYFormat);
+            }
+
+            var year = Convert.ToInt32(currentDateTime.ToString(&quot;yy&quot;));
+            var month = currentDateTime.Month;
+
+            return year &lt;= convertedYear &amp;&amp; (year &lt; convertedYear || month &lt; convertedMonth) ?
+                new ValidatorResult() : new ValidatorResult(PropertyConstants.ExpirationDate, ErrorMessagesResources.CreditCardExpirationDateExpired);
+        }
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[11,57,11,73,1],[12,9,12,10,1],[14,9,14,10,1],[17,9,17,10,1],[18,13,18,40,1],[19,13,19,77,1],[20,13,20,14,1],[21,17,21,136,1],[24,13,24,44,1],[25,13,25,50,1],[26,13,26,14,1],[28,17,28,133,1],[31,13,31,52,1],[33,13,34,68,1],[35,13,35,14,1],[37,17,37,133,1],[40,13,40,72,1],[41,13,41,47,1],[43,13,44,151,1],[45,9,45,10,1]]);
+    </script>
+  </body>
+</html>

@@ -1,25 +1,11 @@
 Feature: CreditCardSpecflow
-
 	
 
-Scenario: Verify that wrong credit card number not accepted
+Scenario: Verify that wrong credit card number not accepted. Credit card number must be maximum length of 15-16, and includes on numbers and non alphabetics.
 	Given the credit card number is <cardnumber> from Examples
 	When I call the API /api/paymentLink with credit card number
 	Then I see in response that Card number must be numeric with 15-16 length
 	And I see response status code is BadRequest
-
-	Given the credit card number is empty
-	When I call the API /api/paymentLink with credit card number
-	Then I see in response that Card number can not be null or empty
-	And I see response status code is BadRequest
-
-	
-	Given the credit card number is null
-	When I call the API /api/paymentLink with credit card number
-	Then I see in response that Card number can not be null or empty
-	And I see response status code is BadRequest
-	
-
 Examples:
 	| cardnumber               |
 	| 5000-1234-5678-9001-0000 |
@@ -33,6 +19,19 @@ Examples:
 	| 40128888888818           |
 	| 52042452500014282        |
 
+
+Scenario: Verify that wrong credit card number not accepted. Credit card number can not be empty.
+	Given the credit card number is empty
+	When I call the API /api/paymentLink with credit card number
+	Then I see in response that Card number can not be null or empty
+	And I see response status code is BadRequest
+
+Scenario: Verify that wrong credit card number not accepted. Credit card number can not be null.
+	Given the credit card number is null
+	When I call the API /api/paymentLink with credit card number
+	Then I see in response that Card number can not be null or empty
+	And I see response status code is BadRequest
+	
 
 Scenario: Verify that wrong CVC not accepted
 	Given the CVC is <cvc> from Examples
@@ -80,7 +79,7 @@ Examples:
 	| exp    |
 	| 123456 |
 	| 12     |
-	| 12/ab     |
+	| 12/ab  |
 	| abc    |
 	| 1a2    |
 	| 122021 |

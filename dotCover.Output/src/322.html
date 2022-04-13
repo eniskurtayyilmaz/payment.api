@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\mypc_YILM248\source\repos\payment.api\Payment.IntegrationTests\Definitions\UnknownCreditCardDefinitions.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http.Json;
+using System.Text;
+using System.Threading.Tasks;
+using FluentAssertions;
+using Payment.Api.Constants;
+using Payment.Api.Models;
+using Payment.Api.Resources;
+using Payment.Api.Validators;
+using Payment.IntegrationTests.Common;
+using TechTalk.SpecFlow;
+
+namespace Payment.IntegrationTests.Definitions
+{
+    [Binding]
+    public class UnknownCreditCardDefinitions : TestInitialize
+    {
+        private readonly ScenarioContext _scenarioContext;
+        private string _unknownCreditCard;
+
+        public UnknownCreditCardDefinitions(ScenarioContext scenarioContext)
+        {
+            _scenarioContext = scenarioContext;
+        }
+
+
+        [Given(@&quot;the unknown credit card is (.*) from Examples&quot;)]
+        public void GivenTheUnknownCreditCardNumberIs(string cardnumber)
+        {
+            this._unknownCreditCard = cardnumber;
+        }
+
+        [When(@&quot;I call the API /api/paymentLink with unknown credit card&quot;)]
+        public async Task WhenISetValidationsGettingValidators()
+        {
+
+            var response = await this.Client.PostAsync(Constant.PaymentLinkEndpoint, JsonData(
+                new PaymentLinkPayByCreditCardRequestDto()
+                {
+                    CreditCardNumber = _unknownCreditCard
+                }));
+
+            var responseObj = await response.Content.ReadFromJsonAsync&lt;ValidateErrorResult&gt;();
+            _scenarioContext[&quot;object&quot;] = responseObj;
+            _scenarioContext[&quot;responseCode&quot;] = response.StatusCode;
+        }
+
+        [Then(@&quot;I see in response that Only American Express, Visa, or Mastercard cards accepted&quot;)]
+        public void ThenUnknownCreditCardNumber()
+        {
+            var responseObj = _scenarioContext[&quot;object&quot;] as ValidateErrorResult;
+            responseObj.Should().NotBeNull();
+            responseObj.Errors.Should().NotBeNull();
+            responseObj.Errors.First(x =&gt; x.Property == PropertyConstants.CreditCard)
+                .Errors
+                .Any(x =&gt; x == ErrorMessagesResources.CreditCardOnlyAcceptedCards).Should().BeTrue();
+
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[24,9,24,77,1],[25,9,25,10,1],[26,13,26,48,1],[27,9,27,10,1],[32,9,32,10,1],[33,13,33,50,1],[34,9,34,10,1],[38,9,38,10,1],[40,13,44,21,1],[46,13,46,95,1],[47,13,47,54,1],[48,13,48,68,1],[49,9,49,10,1],[53,9,53,10,1],[54,13,54,81,1],[55,13,55,46,1],[56,13,56,53,1],[57,13,57,43,1],[57,43,57,85,1],[57,85,59,27,1],[59,27,59,82,1],[59,82,59,102,1],[61,9,61,10,1]]);
+    </script>
+  </body>
+</html>

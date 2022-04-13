@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\mypc_YILM248\source\repos\payment.api\Payment.Api\Validators\ValidatorHandler.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.InteropServices;
+using Payment.Api.Models;
+using Payment.Api.Utils;
+
+namespace Payment.Api.Validators
+{
+    public class ValidatorHandler : ValidatorResult&lt;PaymentLinkPayByCreditCardRequestDto&gt;
+    {
+        private readonly PaymentLinkPayByCreditCardRequestDto _model;
+
+        private IList&lt;IValidator&gt; _validators;
+        public ValidatorHandler(PaymentLinkPayByCreditCardRequestDto model) : base(model)
+        {
+            _model = model;
+            this.SetValidators();
+        }
+
+        public void SetValidators()
+        {
+            this.SetValidators(new List&lt;IValidator&gt;()
+            {
+                new CardOwnerInformationValidator(_model.CardOwner),
+                   new CvcValidator(_model.CVC),
+                   new ExpireDateValidator(_model.IssueDate),
+                   new CardNumberValidator(_model.CreditCardNumber),
+                   new CreditCardTypeFactoryBuilder(_model.CreditCardNumber).SetDefaultValidators()
+            });
+        }
+
+        public void SetValidators(IList&lt;IValidator&gt; validators)
+        {
+            this._validators = validators;
+        }
+
+
+        public override ValidateErrorResult Validate()
+        {
+            return new ValidateUtils().GetValidateErrorResult(this._validators);
+        }
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[15,79,15,90,1],[16,9,16,10,1],[17,13,17,28,1],[18,13,18,34,1],[19,9,19,10,1],[22,9,22,10,1],[23,13,30,16,1],[31,9,31,10,1],[34,9,34,10,1],[35,13,35,43,1],[36,9,36,10,1],[40,9,40,10,1],[41,13,41,81,1],[42,9,42,10,1]]);
+    </script>
+  </body>
+</html>

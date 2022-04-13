@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\mypc_YILM248\source\repos\payment.api\Payment.Api\Validators\CardOwnerInformationValidator.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System.Text.RegularExpressions;
+using Payment.Api.Constants;
+using Payment.Api.Models;
+using Payment.Api.Resources;
+
+namespace Payment.Api.Validators
+{
+    public class CardOwnerInformationValidator : Validator&lt;string&gt;
+    {
+        public CardOwnerInformationValidator(string cardOwnerInformation) : base(cardOwnerInformation)
+        {
+
+        }
+
+        public override ValidatorResult Validate()
+        {
+            var arg = this.ObjectValue;
+            if (string.IsNullOrEmpty(arg) || string.IsNullOrWhiteSpace(arg))
+            {
+                return new ValidatorResult(PropertyConstants.CardOwner, ErrorMessagesResources.CardOwnerCanNotBeNullOrEmpty);
+            }
+
+
+         
+
+            return Regex.IsMatch(arg, &quot;^((?:[A-Za-z]+ ?){3})$&quot;)
+                ? new ValidatorResult()
+                : new ValidatorResult(PropertyConstants.CardOwner, ErrorMessagesResources.CardOwnerMustBeAlphabetic);
+        }
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[10,77,10,103,1],[11,9,11,10,1],[13,9,13,10,1],[16,9,16,10,1],[17,13,17,40,1],[18,13,18,77,1],[19,13,19,14,1],[20,17,20,126,1],[26,13,28,118,1],[29,9,29,10,1]]);
+    </script>
+  </body>
+</html>
