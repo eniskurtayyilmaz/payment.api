@@ -9,11 +9,11 @@ dir
 
 
 
-dotnet sonarscanner begin /k:"PaymentAPI" /d:sonar.host.url="http://localhost:9000"  /d:sonar.login="82c68aba2d00a6612e0a6a3d7057143ddd119471"
+dotnet sonarscanner begin /k:"PaymentAPI" /d:sonar.host.url="http://localhost:9000"  /d:sonar.login="88f786c9b0e33ac32b1fc66974811e112c4cdf00"
 
 dotnet build
 
-dotnet sonarscanner end /d:sonar.login="82c68aba2d00a6612e0a6a3d7057143ddd119471"
+dotnet sonarscanner end /d:sonar.login="88f786c9b0e33ac32b1fc66974811e112c4cdf00"
 
 
 ECHO DONE

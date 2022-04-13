@@ -7,20 +7,21 @@ namespace Payment.Api.Utils
         private static bool _isFrozen;
         private static DateTime? _dateTimeSet;
 
-        private ClockUtils()
+        protected ClockUtils()
         {
         }
+
         public static void Freeze()
         {
             _isFrozen = true;
         }
-        
+
         public static void Freeze(DateTime dateTime)
         {
             Freeze();
             _dateTimeSet = dateTime;
         }
-        
+
         public static void UnFreeze()
         {
             _isFrozen = false;

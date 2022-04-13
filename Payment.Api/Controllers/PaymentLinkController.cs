@@ -13,7 +13,7 @@ namespace Payment.Api.Controllers
     [Route("api/paymentLink")]
     public class PaymentLinkController : ControllerBase
     {
-        private readonly IPaymentService _paymentService = null;
+        private readonly IPaymentService _paymentService;
 
         public PaymentLinkController(IPaymentService paymentService)
         {
