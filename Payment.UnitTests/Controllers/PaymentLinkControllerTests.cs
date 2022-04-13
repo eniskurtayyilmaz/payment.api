@@ -28,9 +28,6 @@ namespace Payment.UnitTests.Controllers
 
         public void Given_Handler_Has_Error_Then_Result_Must_Be_Bad_Request()
         {
-            _paymentService.Setup(x => x.TakePayment(It.IsAny<PaymentLinkPayByCreditCardRequestDto>()))
-                .Returns(_fixture.Create<PaymentLinkPayByCreditCardResponseDto>());
-
             var controller = new PaymentLinkController(_paymentService.Object);
             var model = _fixture.Create<PaymentLinkPayByCreditCardRequestDto>();
 
@@ -41,6 +38,8 @@ namespace Payment.UnitTests.Controllers
             badRequest.Should().NotBeNull();
             badRequest.StatusCode.Should().Be(400);
             badRequest.Value.Should().BeAssignableTo<ValidateErrorResult>();
+
+            _paymentService.Verify(x => x.TakePayment(It.IsAny<PaymentLinkPayByCreditCardRequestDto>()), Times.Never);
         }
     }
 }
