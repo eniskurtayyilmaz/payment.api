@@ -13,7 +13,7 @@ namespace Payment.Api.Controllers
     [Route("api/paymentLink")]
     public class PaymentLinkController : ControllerBase
     {
-        private readonly IPaymentService _paymentService;
+        private readonly IPaymentService _paymentService = null;
 
         public PaymentLinkController(IPaymentService paymentService)
         {
@@ -21,7 +21,7 @@ namespace Payment.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> PayByCreditCard([FromBody] PaymentLinkPayByCreditCardRequestDto model)
+        public IActionResult PayByCreditCard([FromBody] PaymentLinkPayByCreditCardRequestDto model)
         {
             var validatorHandler = new ValidatorHandler(model);
 
@@ -31,7 +31,7 @@ namespace Payment.Api.Controllers
                 return BadRequest(resultOfErrorValidatorResults);
             }
 
-            return Ok(await _paymentService.TakePayment(model));
+            return Ok(_paymentService.TakePayment(model));
         }
     }
 }
